@@ -1,0 +1,2227 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#05060b">
+<meta name="description" content="Défi gratuit de 30 jours : un jour à la fois, avec leçons, journal, bouton SOS et coach. Réservé aux adultes.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2305060b'/%3E%3Ctext x='32' y='44' font-size='34' font-family='sans-serif' font-weight='800' text-anchor='middle' fill='%238b5cf6'%3E30%3C/text%3E%3C/svg%3E">
+<style>
+:root{color-scheme:dark;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0;font:14px/1.5 system-ui,-apple-system,sans-serif}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+<title>Défi 30 Jours</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+<style>
+/* Concept: colonne mobile, fond noir, bandeau dégradé bleu-violet avec pastille noire, ruban blanc défilant, tuiles à bordure fine, grands chiffres en dégradé. */
+:root {
+  --bg: #05060b;
+  --surface: #0a0c14;
+  --surface-2: #0f121c;
+  --line: #1d2233;
+  --fg: #f4f6ff;
+  --muted: #8e95ad;
+  --blue: #3b6cf5;
+  --violet: #8b5cf6;
+  --ok: #34d399;
+  --grad: linear-gradient(90deg, #3b6cf5, #8b5cf6);
+  --font-display: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.55;
+  padding-block: 0 48px;
+  position: relative;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); background: #4a64f6; z-index: 21; }
+button { font-family: inherit; color: inherit; cursor: pointer; }
+button { transition: transform .12s ease, filter .15s ease, border-color .15s ease, background-color .15s ease; }
+@media (hover: hover) { button:hover:not([disabled]) { filter: brightness(1.12); } }
+button:active:not([disabled]) { transform: scale(.98); }
+button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px; }
+
+.glow {
+  position: absolute; top: -140px; left: 50%; transform: translateX(-50%);
+  width: 100%; max-width: 560px; height: 340px; pointer-events: none; z-index: 0;
+  background: radial-gradient(closest-side, rgba(99,102,241,.38), transparent);
+  filter: blur(24px); animation: breathe 7s ease-in-out infinite;
+}
+@keyframes breathe { 0%, 100% { opacity: .55; } 50% { opacity: 1; } }
+
+.band {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
+  background: var(--grad); color: #fff;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 10px 16px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  font-weight: 600; font-size: 13px;
+}
+.band-txt { min-width: 0; }
+.sos-btn {
+  flex: none; border: 1px solid rgba(255,255,255,.55); border-radius: 999px; background: #e11d48; color: #fff;
+  font-family: var(--font-display); font-weight: 800; font-size: 14px; padding: 9px 18px; letter-spacing: .02em;
+  animation: sosBlink 1.5s ease-in-out infinite;
+}
+@keyframes sosBlink {
+  0%, 100% { background-color: #d91c3f; box-shadow: 0 0 0 0 rgba(255,60,90,.65), 0 0 8px rgba(255,60,90,.45); }
+  50% { background-color: #ff3b5c; box-shadow: 0 0 0 9px rgba(255,60,90,0), 0 0 26px rgba(255,80,110,.95); }
+}
+.marquee { background: #fff; color: #05060b; overflow: hidden; white-space: nowrap; position: relative; z-index: 1; }
+.track { display: inline-flex; gap: 26px; padding: 14px 0; animation: slide 34s linear infinite; }
+.track span { font-family: var(--font-display); font-weight: 800; font-size: 17px; letter-spacing: -.01em; }
+.track i { font-style: normal; color: var(--blue); }
+@keyframes slide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+.wrap {
+  position: relative; z-index: 1;
+  max-width: 720px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: flex; flex-direction: column; gap: 20px;
+  padding-top: 22px;
+}
+.tabs { display: flex; gap: 4px; padding: 4px; border: 1px solid var(--line); background: var(--surface); border-radius: 999px; overflow-x: auto; scrollbar-width: none; position: relative; }
+.tabs::-webkit-scrollbar { display: none; }
+.tab { flex: none; border: 0; background: none; border-radius: 999px; padding: 10px 16px; font-weight: 600; font-size: 13px; white-space: nowrap; color: var(--muted); }
+.tab[aria-selected="true"] { background: var(--grad); color: #fff; }
+
+.view { display: flex; flex-direction: column; gap: 20px; }
+.hero { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 16px; padding-top: 8px; }
+.pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  border: 1px solid #26407e; background: rgba(59,108,245,.08);
+  border-radius: 999px; padding: 7px 14px;
+  font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: #c9d4ff;
+}
+.pill .dot { width: 8px; height: 8px; border-radius: 50%; background: #ef4468; }
+h1 {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(32px, 9vw, 52px); line-height: 1.05; letter-spacing: -.035em;
+  margin: 0; text-wrap: balance;
+}
+.grad-text { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.lead { color: var(--muted); margin: 0; max-width: 46ch; text-wrap: balance; }
+
+.tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.tile { border: 1px solid var(--line); background: var(--surface); border-radius: 16px; padding: 14px 8px; text-align: center; min-width: 0; }
+.tile b {
+  display: block; font-family: var(--font-display); font-weight: 800; font-size: 28px; letter-spacing: -.03em;
+  background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent;
+  font-variant-numeric: tabular-nums;
+}
+.tile span { font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.tile.bump { animation: bump .7s ease; }
+@keyframes bump {
+  0% { transform: scale(1); box-shadow: 0 0 0 rgba(139,92,246,0); }
+  35% { transform: scale(1.1); border-color: var(--violet); box-shadow: 0 0 28px rgba(139,92,246,.55); }
+  100% { transform: scale(1); box-shadow: 0 0 0 rgba(139,92,246,0); }
+}
+.progress { height: 8px; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--line); overflow: hidden; }
+.progress i { display: block; height: 100%; background: var(--grad); width: 0; transition: width .5s ease; }
+
+.grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+.day {
+  aspect-ratio: 1; min-width: 0; border-radius: 12px;
+  border: 1px solid var(--line); background: var(--surface);
+  font-family: var(--font-display); font-weight: 700; font-size: 15px; color: var(--muted);
+  display: flex; align-items: center; justify-content: center; font-variant-numeric: tabular-nums;
+}
+.day.done { background: rgba(52,211,153,.1); border-color: rgba(52,211,153,.45); color: var(--ok); }
+.day.slip { background: rgba(255,59,92,.12); border-color: rgba(255,59,92,.55); color: #ff6b85; }
+.cta.slipbtn, .cta.slipbtn[disabled] { background: rgba(255,59,92,.14); color: #ff6b85; border: 1px solid rgba(255,59,92,.5); box-shadow: none; opacity: 1; }
+.day.cur { border-color: var(--violet); color: var(--fg); box-shadow: 0 0 0 1px var(--violet), 0 0 18px rgba(139,92,246,.35); }
+.day.sel { background: var(--grad); border-color: transparent; color: #fff; }
+.day.pop { animation: dpop .6s ease; }
+@keyframes dpop {
+  0% { transform: scale(.6); box-shadow: 0 0 0 rgba(52,211,153,0); }
+  50% { transform: scale(1.25); box-shadow: 0 0 22px rgba(52,211,153,.7); }
+  100% { transform: scale(1); box-shadow: 0 0 0 rgba(52,211,153,0); }
+}
+
+.card { border: 1px solid var(--line); background: var(--surface); border-radius: 24px; padding: 22px 18px; display: flex; flex-direction: column; gap: 16px; }
+.card-head { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.big-day { font-family: var(--font-display); font-weight: 800; font-size: 56px; line-height: 1; letter-spacing: -.04em; }
+.big-day small { display: block; font-size: 11px; letter-spacing: .14em; color: var(--muted); font-weight: 700; margin-bottom: 4px; }
+.phase { margin-left: auto; font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: #c9d4ff; border: 1px solid #26407e; border-radius: 999px; padding: 6px 12px; background: rgba(59,108,245,.08); }
+h2 { font-family: var(--font-display); font-weight: 800; font-size: 24px; letter-spacing: -.025em; line-height: 1.15; margin: 0; text-wrap: balance; }
+.block { border: 1px solid var(--line); background: var(--surface-2); border-radius: 16px; padding: 14px 16px; }
+.block h3 { margin: 0 0 4px; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+.block p { margin: 0; }
+.block textarea { margin-top: 10px; min-height: 80px; }
+.hw-l { display: block; font-size: 11px; letter-spacing: .12em; font-weight: 700; color: var(--muted); margin-bottom: 2px; }
+.hw-t { display: block; }
+.bilan { border-color: var(--violet); }
+:root { --red: #ff3b5c; }
+.red-note { border: 1px solid #5a1626; background: #14080d; border-radius: 16px; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; }
+.red-note p { margin: 0; }
+.age { display: flex; align-items: center; gap: 12px; text-align: left; width: 100%; border: 1px solid var(--line); background: var(--surface); border-radius: 16px; padding: 14px 16px; }
+.age .box { flex: none; width: 24px; height: 24px; border-radius: 8px; border: 2px solid #343a52; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; color: transparent; }
+.age[aria-checked="true"] .box { background: var(--ok); border-color: var(--ok); color: #05060b; }
+#onb-start[disabled] { opacity: .45; }
+.quote { margin: 0; color: var(--muted); font-style: italic; font-size: 14px; }
+.badges { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.badge { border: 1px solid var(--violet); border-radius: 999px; padding: 7px 12px; font-size: 12px; font-weight: 600; }
+.badge.off { border-color: var(--line); color: var(--muted); opacity: .6; }
+.duo-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+.duo-row b { min-width: 74px; font-size: 13px; }
+.duo-bars { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; align-items: end; height: 40px; }
+.duo-bars i { display: block; border-radius: 3px; background: var(--grad); min-height: 2px; }
+.duo-bars.f i { background: #ff3b5c; }
+.duo-bars i.none { background: var(--line); }
+.share-img { width: 100%; max-width: 280px; border-radius: 14px; border: 1px solid var(--line); }
+.mask, .lock { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 24px; text-align: center; }
+.mask { z-index: 95; background: #1b1b1d; color: #8a8a8e; }
+.lock { z-index: 99; background: var(--bg); }
+.lock input { width: 160px; text-align: center; font-size: 28px; letter-spacing: .4em; background: var(--surface-2); color: var(--fg); border: 1px solid var(--line); border-radius: 14px; padding: 12px; }
+.hide-fab { position: fixed; right: max(8px, env(safe-area-inset-right, 0px)); bottom: calc(8px + env(safe-area-inset-bottom, 0px)); z-index: 40; opacity: .6; font-size: 11px; padding: 6px 11px; }
+.hide-fab:hover, .hide-fab:focus-visible { opacity: 1; }
+.tbar { display: flex; gap: 6px; justify-content: center; }
+.tbar i { width: 28px; height: 4px; border-radius: 2px; background: var(--line); }
+.tbar i.on { background: var(--grad); }
+.trig-row { display: grid; grid-template-columns: 1fr auto; gap: 6px 10px; align-items: center; margin-top: 8px; font-size: 14px; }
+.trig-row i { display: block; height: 6px; border-radius: 3px; background: var(--grad); grid-column: 1 / -1; }
+#exp-ta { width: 100%; min-height: 90px; font-size: 12px; }
+.mchart { display: grid; grid-template-columns: repeat(14, 1fr); gap: 4px; align-items: end; height: 110px; margin-top: 12px; }
+.mchart div { display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%; gap: 4px; }
+.mchart i { display: block; width: 100%; border-radius: 6px 6px 2px 2px; background: var(--grad); min-height: 3px; }
+.mchart i.none { background: var(--line); }
+.mchart small { color: var(--muted); font-size: 9px; }
+.plan-in { margin-bottom: 8px; }
+.plan-in input { width: 100%; background: var(--surface-2); color: var(--fg); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; font: inherit; }
+.legal { text-align: left; }
+.legal h3 { margin: 14px 0 4px; font-size: 14px; }
+.legal p { margin: 0; color: var(--muted); font-size: 13px; }
+.gate { text-align: center; align-items: center; }
+.gate .row { display: flex; gap: 10px; width: 100%; }
+.gate .row button { flex: 1; }
+#grid-toggle { margin: 0; }
+
+.actions { display: flex; flex-direction: column; gap: 10px; }
+.cta {
+  width: 100%; border: 1px solid rgba(255,255,255,.18); border-radius: 999px;
+  background: var(--grad); color: #fff;
+  font-family: var(--font-display); font-weight: 800; font-size: 17px; letter-spacing: -.01em;
+  padding: 16px 20px; box-shadow: 0 0 32px rgba(99,102,241,.35);
+}
+.cta[disabled] { background: var(--surface-2); border-color: var(--line); color: var(--muted); box-shadow: none; cursor: default; }
+.cta.done { background: rgba(52,211,153,.1); border-color: rgba(52,211,153,.45); color: var(--ok); box-shadow: none; }
+.cta-alt { width: 100%; border: 1px solid var(--line); border-radius: 999px; background: var(--surface-2); font-weight: 600; font-size: 15px; padding: 13px 20px; }
+.cta-alt:hover { border-color: var(--violet); }
+
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { border: 1px solid var(--line); background: var(--surface-2); border-radius: 999px; padding: 8px 14px; font-size: 13px; font-weight: 500; }
+.chip:hover { border-color: var(--violet); }
+.chip.on { background: var(--grad); border-color: transparent; color: #fff; }
+.label { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: 0 0 8px; }
+.field { display: flex; flex-direction: column; }
+
+.link-btn { background: none; border: 0; color: var(--muted); font-size: 13px; text-decoration: underline; text-underline-offset: 3px; padding: 6px; }
+.confirm { border: 1px solid var(--line); background: var(--surface-2); border-radius: 16px; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; text-align: center; }
+.confirm p { margin: 0; color: var(--muted); }
+.confirm .row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+.btn-sm { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 9px 16px; font-weight: 600; font-size: 13px; }
+.btn-sm.primary { background: var(--grad); border-color: transparent; color: #fff; }
+
+.log-row { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid var(--line); font-size: 14px; }
+.log-row span:last-child { color: var(--muted); text-align: right; }
+
+/* Apprendre */
+.part { border: 1px solid var(--line); background: var(--surface); border-radius: 20px; overflow: hidden; }
+.part-h { width: 100%; display: flex; align-items: center; gap: 14px; text-align: left; background: none; border: 0; padding: 16px 18px; }
+.part-n { font-family: var(--font-display); font-weight: 800; font-size: 44px; line-height: 1; letter-spacing: -.04em; flex: none; min-width: 34px; }
+.part-t { flex: 1; min-width: 0; font-family: var(--font-display); font-weight: 800; font-size: 17px; letter-spacing: -.02em; line-height: 1.2; }
+.part-i { flex: none; color: var(--muted); font-size: 22px; }
+.part-b { padding: 0 18px 18px; display: flex; flex-direction: column; gap: 10px; color: #cfd4e6; }
+.part-b p { margin: 0; }
+
+/* Habitudes */
+.hab { width: 100%; display: flex; align-items: center; gap: 14px; text-align: left; border: 1px solid var(--line); background: var(--surface-2); border-radius: 16px; padding: 14px 16px; }
+.hab .box { flex: none; width: 24px; height: 24px; border-radius: 8px; border: 2px solid #343a52; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; color: transparent; }
+.hab[aria-checked="true"] { border-color: rgba(52,211,153,.45); background: rgba(52,211,153,.08); }
+.hab[aria-checked="true"] .box { background: var(--ok); border-color: var(--ok); color: #05060b; }
+.week { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+.wd { text-align: center; border: 1px solid var(--line); background: var(--surface-2); border-radius: 12px; padding: 8px 2px; min-width: 0; }
+.wd small { display: block; color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+.wd b { font-family: var(--font-display); font-size: 15px; font-variant-numeric: tabular-nums; }
+.wd.full { border-color: rgba(52,211,153,.45); }
+.wd.full b { color: var(--ok); }
+
+/* Journal */
+textarea { width: 100%; min-height: 110px; resize: vertical; background: var(--surface-2); color: var(--fg); border: 1px solid var(--line); border-radius: 16px; padding: 13px 16px; font: inherit; }
+.mood { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+.mood .chip { padding: 12px 0; font-weight: 700; text-align: center; }
+.mood-legend { display: flex; justify-content: space-between; color: var(--muted); font-size: 12px; margin-top: 6px; }
+.entry { border-top: 1px solid var(--line); padding: 12px 0; display: flex; flex-direction: column; gap: 4px; }
+.entry b { font-size: 13px; color: #c9d4ff; }
+.entry p { margin: 0; color: #cfd4e6; overflow-wrap: anywhere; }
+
+.vid { border: 1px solid var(--line); background: var(--surface); border-radius: 20px; padding: 18px; display: flex; flex-direction: column; gap: 10px; }
+.vid h3 { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 18px; letter-spacing: -.02em; line-height: 1.2; overflow-wrap: anywhere; }
+.vid p { margin: 0; color: #cfd4e6; }
+.src { align-self: flex-start; font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #c9d4ff; border: 1px solid #26407e; border-radius: 999px; padding: 4px 10px; background: rgba(59,108,245,.08); }
+a.cta-alt { display: block; text-align: center; text-decoration: none; color: var(--fg); }
+a.cta-alt:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px; }
+
+/* Chat */
+.chat { display: flex; flex-direction: column; gap: 12px; }
+.chat h2 { font-size: 22px; }
+.msgs { display: flex; flex-direction: column; gap: 10px; max-height: 420px; overflow-y: auto; padding: 2px; }
+.bubble { max-width: 88%; padding: 11px 14px; border-radius: 18px; white-space: pre-wrap; overflow-wrap: anywhere; min-width: 0; }
+.bubble.user { align-self: flex-end; background: var(--grad); color: #fff; border-bottom-right-radius: 6px; }
+.bubble.ai { align-self: flex-start; background: var(--surface-2); border: 1px solid var(--line); border-bottom-left-radius: 6px; }
+.empty { color: var(--muted); margin: 0; }
+.composer { display: flex; gap: 8px; }
+.composer input { flex: 1; min-width: 0; background: var(--surface-2); color: var(--fg); border: 1px solid var(--line); border-radius: 999px; padding: 13px 16px; font: inherit; }
+.composer button { border: 0; border-radius: 999px; background: var(--grad); color: #fff; font-weight: 700; padding: 0 18px; }
+.composer button[disabled] { opacity: .5; cursor: default; }
+
+/* Questionnaire de départ : une question par écran */
+.onb {
+  position: fixed; inset: 0; z-index: 70; background: var(--bg); overflow-y: auto;
+  padding-top: max(20px, env(safe-area-inset-top, 0px));
+  padding-bottom: max(24px, env(safe-area-inset-bottom, 0px));
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.onb-in { max-width: 520px; min-height: 100%; margin: 0 auto; display: flex; flex-direction: column; gap: 18px; }
+.onb-head { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+.onb h2 { font-size: clamp(26px, 8vw, 34px); }
+.onb-opts { display: flex; flex-direction: column; gap: 10px; }
+.opt {
+  width: 100%; text-align: left; border: 1px solid var(--line); background: var(--surface);
+  border-radius: 16px; padding: 17px 18px; font-weight: 600; font-size: 16px;
+}
+.opt:hover { border-color: var(--violet); }
+.opt.on { background: var(--grad); border-color: transparent; color: #fff; }
+.onb-nav { margin-top: auto; display: flex; flex-direction: column; gap: 8px; align-items: stretch; padding-top: 12px; }
+.onb-nav .link-btn { align-self: center; }
+
+.onb-intro { margin: auto 0; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 18px; padding-block: 12px; }
+.onb-intro h1 { font-size: clamp(44px, 14vw, 68px); line-height: .98; }
+.onb-intro .lead { font-size: 17px; }
+.intro-points { list-style: none; margin: 4px 0 0; padding: 0; width: 100%; display: flex; flex-direction: column; gap: 10px; text-align: left; }
+.intro-points li { border: 1px solid var(--line); background: var(--surface); border-radius: 16px; padding: 14px 16px; display: flex; gap: 14px; align-items: flex-start; }
+.intro-points .tick { flex: none; width: 24px; height: 24px; border-radius: 50%; background: var(--grad); color: #fff; font-size: 13px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+.intro-points b { display: block; font-family: var(--font-display); font-size: 16px; letter-spacing: -.01em; }
+.intro-points span { color: var(--muted); font-size: 14px; }
+.fine { color: var(--muted); font-size: 13px; margin: 0; text-wrap: balance; }
+.onb-q { display: flex; flex-direction: column; gap: 18px; flex: 1; }
+.hint { color: var(--muted); font-size: 14px; margin: -8px 0 0; }
+.opt { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.opt::after { content: ""; flex: none; width: 22px; height: 22px; border-radius: 50%; border: 2px solid #343a52; }
+.opt.on::after { content: "✓"; background: #fff; border-color: #fff; color: #4a64f6; font-size: 13px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+
+/* SOS */
+.sos {
+  position: fixed; inset: 0; z-index: 60; background: rgba(5,6,11,.97); overflow-y: auto;
+  padding-top: max(20px, env(safe-area-inset-top, 0px));
+  padding-bottom: max(24px, env(safe-area-inset-bottom, 0px));
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.sos-in { max-width: 520px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center; }
+.sos-top { width: 100%; display: flex; justify-content: space-between; align-items: center; }
+.breath {
+  width: 190px; height: 190px; border-radius: 50%; margin: 8px 0;
+  background: radial-gradient(circle at 35% 30%, #6d8cff, #6d3df0 70%);
+  box-shadow: 0 0 60px rgba(99,102,241,.5);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-weight: 800; font-size: 20px;
+}
+.breath.run { animation: breath 10s ease-in-out infinite; }
+@keyframes breath {
+  0% { transform: scale(.7); } 40% { transform: scale(1); } 100% { transform: scale(.7); }
+}
+.timer { font-family: var(--font-display); font-weight: 800; font-size: 44px; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+
+
+.cele { position: fixed; inset: 0; z-index: 80; pointer-events: none; overflow: hidden; display: grid; place-items: center; animation: celeOut .5s ease 3.6s forwards; }
+.cele::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 50% 45%, rgba(91, 108, 245, .45), rgba(5, 6, 11, .75) 70%); animation: celeBg 4.1s ease forwards; }
+.cele-box { position: relative; text-align: center; padding: 22px 30px; border-radius: 28px; border: 1px solid var(--violet); background: rgba(5, 6, 11, .85); animation: celePop .7s cubic-bezier(.2, 1.4, .4, 1) both; }
+.cele-box b { display: block; font-family: var(--font-display); font-size: 54px; line-height: 1.05; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.cele-box span { display: block; margin-top: 8px; font-weight: 600; color: var(--fg); }
+.cele i { position: absolute; left: 50%; top: 50%; width: 120px; height: 120px; margin: -60px 0 0 -60px; border-radius: 50%; border: 3px solid var(--violet); box-shadow: 0 0 30px rgba(139, 92, 246, .6), inset 0 0 30px rgba(59, 108, 245, .4); opacity: 0; animation: celeRing 2.4s ease-out forwards; }
+.cele-box { overflow: hidden; }
+.cele-box::after { content: ""; position: absolute; top: 0; bottom: 0; left: -60%; width: 40%; background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .35), transparent); transform: skewX(-20deg); animation: celeShine 1.6s ease .5s 1 both; }
+@keyframes celePop { from { transform: scale(.4); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes celeRing { 0% { transform: scale(.4); opacity: .9; } 100% { transform: scale(9); opacity: 0; } }
+@keyframes celeShine { from { left: -60%; } to { left: 140%; } }
+@keyframes celeBg { 0% { opacity: 0; } 15% { opacity: 1; } 80% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes celeOut { to { opacity: 0; visibility: hidden; } }
+@media (prefers-reduced-motion: reduce) {
+  .cele i, .cele-box::after { display: none; }
+  .cele-box { animation: none; }
+  .glow { display: none; }
+  .sos-btn { animation: none; }
+  .day.pop, .tile.bump, .breath.run { animation: none; }
+  .track { animation: none; }
+  .progress i { transition: none; }
+}
+
+.foot { color: var(--muted); font-size: 12px; text-align: center; margin: 8px 0 0; text-wrap: balance; }
+.foot-actions { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+</style>
+</head>
+<body>
+
+<div class="glow" aria-hidden="true"></div>
+
+<div class="band">
+  <span class="band-txt">Défi gratuit · 30 jours</span>
+  <button class="sos-btn" id="sos-open" type="button">SOS envie</button>
+</div>
+<div class="marquee" aria-hidden="true">
+  <div class="track">
+    <span>Un jour à la fois</span><i>✦</i><span>Une chute n'est pas un échec</span><i>✦</i><span>Comprendre tes déclencheurs</span><i>✦</i><span>Reprendre le contrôle</span><i>✦</i><span>Gratuit</span><i>✦</i>
+    <span>Un jour à la fois</span><i>✦</i><span>Une chute n'est pas un échec</span><i>✦</i><span>Comprendre tes déclencheurs</span><i>✦</i><span>Reprendre le contrôle</span><i>✦</i><span>Gratuit</span><i>✦</i>
+  </div>
+</div>
+
+<main class="wrap">
+  <nav class="tabs" role="tablist" aria-label="Sections" id="tabs"></nav>
+
+  <!-- DÉFI -->
+  <section class="view" id="v-defi">
+    <div class="hero">
+      <span class="pill"><span class="dot"></span>Gratuit · 30 jours</span>
+      <h1>Tiens 30 jours. <span class="grad-text">Jour après jour.</span></h1>
+      <p class="lead" id="hero-lead">Chaque jour, tu dis si tu as tenu ou si tu as craqué. Dans les deux cas, tu apprends quelque chose.</p>
+    </div>
+
+    <div id="game" class="view" hidden>
+      <div class="red-note" id="welcome-note" hidden style="border-color:var(--line);background:var(--surface)">
+        <p id="welcome-txt"></p>
+        <div class="row">
+          <button class="btn-sm primary" id="welcome-j" type="button">Noter dans mon journal</button>
+          <button class="btn-sm" id="welcome-x" type="button">Fermer</button>
+        </div>
+      </div>
+      <div class="red-note" id="slip-alert" hidden>
+        <p><b>Plusieurs chutes cette semaine.</b> Ce n'est pas un échec : c'est un signal. Relis ton plan SOS, change ce qui déclenche, ou parle à quelqu'un.</p>
+        <div class="row">
+          <button class="btn-sm primary" id="slip-sos" type="button">Ouvrir le SOS</button>
+          <button class="btn-sm" id="slip-ai" type="button">En parler à l'IA</button>
+        </div>
+      </div>
+      <section class="tiles" aria-label="Ta progression">
+        <div class="tile"><b id="t-cur">1</b><span>Jour</span></div>
+        <div class="tile" id="tile-streak"><b id="t-streak">0</b><span>Série</span></div>
+        <div class="tile"><b id="t-best">0</b><span>Record</span></div>
+      </section>
+      <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="30" id="bar"><i id="bar-i"></i></div>
+      <button class="cta-alt" id="grid-toggle" type="button" aria-expanded="false">Voir les 30 jours</button>
+      <div class="grid" id="grid" hidden></div>
+      <section class="card" id="detail"></section>
+      <section class="card" id="log" hidden></section>
+      <section class="card" id="badges"></section>
+      <section class="card" id="share-card">
+        <h2>Ma progression en image</h2>
+        <p class="lead" style="max-width:none">Une image simple à partager, sans détails personnels.</p>
+        <button class="cta-alt" id="share-btn" type="button">Créer mon image</button>
+        <div id="share-out"></div>
+      </section>
+    </div>
+
+  </section>
+
+  <!-- IA -->
+  <section class="view" id="v-ai" hidden>
+    <div class="hero">
+      <span class="pill"><span class="dot"></span>Coach IA</span>
+      <h1>Pose ta question, <span class="grad-text">reçois un coup de main.</span></h1>
+      <p class="lead">Envie, irritabilité, chute, doute : écris ce qui se passe et l'IA te répond avec des conseils concrets.</p>
+    </div>
+    <section class="card chat" id="chat">
+      <h2>Parle à l'IA</h2>
+      <p class="lead" style="text-align:left;max-width:none">Une envie forte, de l'irritabilité, une chute ? Pose ta question, elle connaît ton jour en cours.</p>
+      <div class="chips" id="starters"></div>
+      <div class="msgs" id="msgs" aria-live="polite"><p class="empty" id="empty">Aucun message pour l'instant.</p></div>
+      <form class="composer" id="form">
+        <input id="q" type="text" placeholder="Écris ton message" autocomplete="off" maxlength="600">
+        <button type="submit" id="send">Envoyer</button>
+      </form>
+    </section>
+  </section>
+
+  <!-- APPRENDRE -->
+  <section class="view" id="v-learn" hidden>
+    <div class="hero">
+      <span class="pill"><span class="dot"></span>Comprendre</span>
+      <h1>Ce qu'il faut <span class="grad-text">vraiment savoir.</span></h1>
+      <p class="lead">Seize parties courtes, sans promesses magiques. Ouvre-les dans l'ordre que tu veux.</p>
+    </div>
+    <div class="view" id="learn-list" style="gap:12px"></div>
+  </section>
+
+  <!-- HABITUDES -->
+  <section class="view" id="v-habits" hidden>
+    <div class="hero">
+      <span class="pill"><span class="dot"></span>Habitudes</span>
+      <h1>Ce qui t'aide <span class="grad-text">au quotidien.</span></h1>
+      <p class="lead">Le sport, le sommeil et les écrans pèsent souvent plus lourd que la volonté. Coche ce que tu as fait aujourd'hui.</p>
+    </div>
+    <section class="card">
+      <h2 id="hab-title">Aujourd'hui</h2>
+      <div class="actions" id="hab-list"></div>
+    </section>
+    <section class="card">
+      <h2>7 derniers jours</h2>
+      <div class="week" id="week"></div>
+    </section>
+  </section>
+
+  <!-- JOURNAL -->
+  <section class="view" id="v-journal" hidden>
+    <div class="hero">
+      <span class="pill"><span class="dot"></span>Journal</span>
+      <h1>Écris ce que tu <span class="grad-text">ressens.</span></h1>
+      <p class="lead">Quelques lignes par jour suffisent pour voir ce qui change et ce qui te déclenche.</p>
+    </div>
+    <section class="card">
+      <div class="field">
+        <p class="label">Comment ça va aujourd'hui ?</p>
+        <div class="mood" id="mood"></div>
+        <div class="mood-legend"><span>Dur</span><span>Très bien</span></div>
+      </div>
+      <div class="field">
+        <p class="label">Ta note du jour</p>
+        <textarea id="jn" maxlength="400" placeholder="Qu'est-ce qui a été facile ? Difficile ? Qu'est-ce qui t'a donné envie ?"></textarea>
+      </div>
+      <button class="cta" id="j-save" type="button">Enregistrer</button>
+      <p class="lead" id="j-msg" style="text-align:center;max-width:none" hidden>Enregistré.</p>
+    </section>
+    <section class="card">
+      <h2>Ton humeur, 14 derniers jours</h2>
+      <p class="lead" id="mc-sum" style="max-width:none">Enregistre ton humeur chaque jour pour voir ta courbe.</p>
+      <div class="mchart" id="mchart" aria-hidden="true"></div>
+    </section>
+    <section class="card">
+      <h2>Mon plan SOS</h2>
+      <p class="lead" style="max-width:none">Écris 3 choses que tu feras quand l'envie arrive. Elles s'afficheront dans le bouton SOS.</p>
+      <div id="plan-box"></div>
+      <button class="cta-alt" id="plan-save" type="button">Enregistrer mon plan</button>
+      <p class="fine" id="plan-msg" hidden>Plan enregistré.</p>
+    </section>
+    <section class="card">
+      <h2>Bilan du jour à envoyer</h2>
+      <p class="lead" style="max-width:none">Un résumé court à envoyer à un coach, un ami ou à toi-même.</p>
+      <button class="cta-alt" id="bd-copy" type="button">Copier mon bilan du jour</button>
+      <textarea id="bd-ta" readonly hidden aria-label="Mon bilan du jour"></textarea>
+      <p class="fine" id="bd-msg" hidden></p>
+    </section>
+    <section class="card">
+      <h2>Défi à deux</h2>
+      <p class="lead" style="max-width:none">Vous notez chacun l'énergie, l'humeur et le sommeil de 1 à 5 chaque soir, pendant 7 jours. Puis vous comparez vos courbes.</p>
+      <div id="duo-in"></div>
+      <button class="cta-alt" id="duo-copy" type="button">Copier mon code (7 derniers jours)</button>
+      <p class="fine" id="duo-msg" hidden></p>
+      <div class="field">
+        <p class="label">Colle le code de ton ami</p>
+        <input id="duo-friend" type="text" autocomplete="off" maxlength="120" placeholder="D30|…" style="width:100%;background:var(--surface-2);color:var(--fg);border:1px solid var(--line);border-radius:14px;padding:12px 14px;font:inherit">
+      </div>
+      <button class="cta" id="duo-cmp" type="button">Comparer</button>
+      <div id="duo-out"></div>
+    </section>
+    <section class="card" id="trig-card" hidden>
+      <h2>Tes déclencheurs</h2>
+      <p class="lead" style="max-width:none">Ce qui revient le plus avant une chute.</p>
+      <div id="trig-list"></div>
+    </section>
+    <section class="card" id="j-list-card" hidden>
+      <h2>Tes dernières notes</h2>
+      <div id="j-list"></div>
+    </section>
+  </section>
+
+  <!-- VIDÉOS -->
+  <section class="view" id="v-videos" hidden>
+    <div class="hero">
+      <span class="pill"><span class="dot"></span>Vidéos</span>
+      <h1>Comprendre en <span class="grad-text">regardant.</span></h1>
+      <p class="lead">Des vidéos pour mieux comprendre les envies, les habitudes et la discipline. Elles s'ouvrent sur la plateforme d'origine.</p>
+    </div>
+    <div class="view" id="vid-list" style="gap:12px"></div>
+    <p class="lead" style="text-align:center;max-width:none;font-size:13px">Les vidéos partagent des expériences et des points de vue personnels. Elles ne remplacent pas un avis médical.</p>
+  </section>
+
+  <p class="foot">Les ressentis décrits sont des témoignages courants, pas des preuves scientifiques, et varient d'une personne à l'autre. Ce site ne remplace pas un avis médical. En cas de douleur, d'anxiété forte ou de détresse, parle à un médecin ou à un proche. En France, le 3114 répond à toute heure en cas de pensées suicidaires. Tes données restent dans ton navigateur.</p>
+  <div class="foot-actions">
+    <button class="link-btn" id="legal-open" type="button" aria-expanded="false">Confidentialité et mentions légales</button>
+    <section class="card legal" id="legal" hidden>
+      <h3>Qui édite ce site</h3>
+      <p>Éditeur : @mth_elite1 sur Instagram, contact par message privé. Site gratuit, réservé aux personnes de 18 ans et plus.</p>
+      <h3>Tes données</h3>
+      <p id="legal-data">Ta progression, ton profil, ton journal, tes réflexions et ton plan SOS sont enregistrés uniquement dans ton navigateur, sur cet appareil. Il n'y a pas de compte et rien n'est envoyé à l'éditeur du site.</p>
+      <h3>L'IA</h3>
+      <p>Quand tu écris à l'IA, ton message est envoyé au service qui la fait fonctionner pour obtenir une réponse. N'y mets pas de nom, d'adresse ni d'information qui permet de t'identifier.</p>
+      <h3>Supprimer</h3>
+      <p>Le bouton « Effacer mes données » supprime tout ce qui est enregistré sur cet appareil.</p>
+      <h3>Avertissement</h3>
+      <p>Ce site ne remplace pas un avis médical. Les ressentis décrits sont des témoignages. En cas de détresse, parle à un médecin ou à un proche. En France, le 3114 répond 24 h sur 24.</p>
+    </section>
+    <button class="link-btn" id="mask-open" type="button">Masquer l'écran</button>
+    <button class="link-btn" id="acct-open" type="button">Compte</button>
+    <section class="card legal" id="acct-box" hidden style="width:100%">
+      <h3>Compte (facultatif)</h3>
+      <p id="acct-off" hidden>Les comptes ne sont pas activés sur ce site. Tes données restent sur cet appareil.</p>
+      <div id="acct-out">
+        <p>Crée un compte pour retrouver ta progression sur un autre appareil. Sans compte, tout reste sur cet appareil.</p>
+        <input id="acct-email" type="email" autocomplete="email" maxlength="120" placeholder="Email" aria-label="Email" style="width:100%;margin-top:8px;background:var(--surface);color:var(--fg);border:1px solid var(--line);border-radius:12px;padding:11px 12px;font:inherit">
+        <input id="acct-pass" type="password" autocomplete="current-password" maxlength="72" placeholder="Mot de passe (8 caractères minimum)" aria-label="Mot de passe" style="width:100%;margin-top:8px;background:var(--surface);color:var(--fg);border:1px solid var(--line);border-radius:12px;padding:11px 12px;font:inherit">
+        <div class="row" style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn-sm primary" id="acct-signup" type="button">Créer un compte</button>
+          <button class="btn-sm" id="acct-signin" type="button">Me connecter</button>
+        </div>
+      </div>
+      <div id="acct-in" hidden>
+        <p id="acct-who"></p>
+        <div class="row" style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn-sm primary" id="acct-push" type="button">Enregistrer maintenant</button>
+          <button class="btn-sm" id="acct-pull" type="button">Récupérer depuis mon compte</button>
+          <button class="btn-sm" id="acct-out-btn" type="button">Me déconnecter</button>
+        </div>
+        <div id="acct-choice" class="confirm" hidden style="margin-top:10px">
+          <p>Ton compte contient déjà une progression. Laquelle garder ?</p>
+          <div class="row">
+            <button class="btn-sm primary" id="acct-keep-local" type="button">Celle de cet appareil</button>
+            <button class="btn-sm" id="acct-keep-cloud" type="button">Celle du compte</button>
+          </div>
+        </div>
+        <button class="link-btn" id="acct-del-open" type="button" style="margin-top:8px">Supprimer mon compte</button>
+        <div id="acct-del" class="confirm" hidden style="margin-top:8px">
+          <p>Cela supprime ton compte et ta progression enregistrée en ligne. Les données de cet appareil restent tant que tu ne les effaces pas.</p>
+          <div class="row">
+            <button class="btn-sm primary" id="acct-del-yes" type="button">Oui, supprimer</button>
+            <button class="btn-sm" id="acct-del-no" type="button">Annuler</button>
+          </div>
+        </div>
+      </div>
+      <p class="fine" id="acct-msg" hidden></p>
+    </section>
+    <button class="link-btn" id="pin-open" type="button">Code d'accès</button>
+    <div class="confirm" id="pin-box" hidden>
+      <p>Un code à 4 chiffres demandé à l'ouverture. Il protège contre un regard sur ton téléphone, ce n'est pas un chiffrement.</p>
+      <input id="pin-new" type="password" inputmode="numeric" maxlength="4" autocomplete="off" aria-label="Nouveau code à 4 chiffres" style="text-align:center;background:var(--surface);color:var(--fg);border:1px solid var(--line);border-radius:12px;padding:10px">
+      <div class="row">
+        <button class="btn-sm primary" id="pin-save" type="button">Enregistrer</button>
+        <button class="btn-sm" id="pin-del" type="button">Retirer le code</button>
+      </div>
+      <p id="pin-msg" hidden></p>
+    </div>
+    <button class="link-btn" id="exp-open" type="button">Copier mes données</button>
+    <div class="confirm" id="exp-box" hidden>
+      <p id="exp-msg">Tes données sont prêtes. Colle-les dans un endroit sûr (notes, message à toi-même).</p>
+      <textarea id="exp-ta" readonly aria-label="Mes données"></textarea>
+    </div>
+    <button class="link-btn" id="wipe-open" type="button">Effacer mes données</button>
+    <div class="confirm" id="wipe-box" hidden>
+      <p>Toute ta progression, tes notes et ton profil seront supprimés sur cet appareil.</p>
+      <div class="row">
+        <button class="btn-sm primary" id="wipe-yes" type="button">Oui, tout effacer</button>
+        <button class="btn-sm" id="wipe-no" type="button">Annuler</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Questionnaire de départ -->
+<div class="onb" id="onb" role="dialog" aria-modal="true" aria-label="Questionnaire de départ" hidden>
+  <div class="onb-in">
+    <div class="onb-intro" id="onb-intro">
+      <span class="pill"><span class="dot"></span>Gratuit · 30 jours</span>
+      <h1>Défi <span class="grad-text">30 Jours</span></h1>
+      <p class="lead">Reprends le contrôle, un jour à la fois.</p>
+      <ul class="intro-points">
+        <li><span class="tick">✓</span><div><b>Un jour à la fois</b><span>Chaque jour, tu dis si tu as tenu ou si tu as craqué.</span></div></li>
+        <li><span class="tick">✓</span><div><b>Sans jugement</b><span>Une chute sert à comprendre ce qui t'a déclenché, pas à culpabiliser.</span></div></li>
+        <li><span class="tick">✓</span><div><b>Un coach IA et un bouton SOS</b><span>Pour les moments où l'envie est forte.</span></div></li>
+      </ul>
+      <button class="age" id="age-ck" type="button" role="checkbox" aria-checked="false"><span class="box">✓</span><span>J'ai 18 ans ou plus. Ce site est réservé aux adultes.</span></button>
+      <button class="cta" id="onb-start" type="button" disabled>Commencer</button>
+      <p class="fine" id="age-msg" hidden>Ce site est réservé aux personnes de 18 ans et plus. Si tu as moins de 18 ans, n'utilise pas ce site.</p>
+      <p class="fine">Sept questions rapides pour adapter le défi. Tes réponses restent sur ton appareil.</p>
+    </div>
+    <div class="onb-q" id="onb-q" hidden>
+      <div class="progress" aria-hidden="true"><i id="onb-bar"></i></div>
+      <p class="label" id="onb-step" style="margin:0"></p>
+      <h2 id="onb-h"></h2>
+      <p class="hint" id="onb-hint" hidden></p>
+      <div class="onb-opts" id="onb-opts"></div>
+      <div class="onb-nav">
+        <button class="cta" id="onb-next" type="button">Continuer</button>
+        <button class="link-btn" id="onb-back" type="button">Retour</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="lock" id="lock" role="dialog" aria-modal="true" aria-label="Code d'accès" hidden>
+  <h2>Code d'accès</h2>
+  <input id="lock-in" type="password" inputmode="numeric" maxlength="4" autocomplete="off" aria-label="Code à 4 chiffres">
+  <p class="fine" id="lock-msg" hidden>Code incorrect.</p>
+  <p class="fine">Code oublié ? Utilise « Effacer mes données » en bas du site après avoir vidé les données du navigateur.</p>
+</div>
+<div class="mask" id="mask" role="button" tabindex="0" aria-label="Écran masqué, touche pour revenir" hidden>
+  <p>Écran masqué.</p>
+  <p class="fine">Touche l'écran pour revenir.</p>
+</div>
+<button class="btn-sm hide-fab" id="hide-fab" type="button">Masquer</button>
+<div class="onb" id="tour" role="dialog" aria-modal="true" aria-label="Visite guidée" hidden>
+  <div class="onb-in">
+    <div class="onb-q" style="margin:auto 0">
+      <div class="tbar" aria-hidden="true"><i id="tb0"></i><i id="tb1"></i><i id="tb2"></i></div>
+      <p class="label" id="tour-step" style="margin:0"></p>
+      <h2 id="tour-h"></h2>
+      <p class="lead" id="tour-t" style="max-width:none;text-align:left"></p>
+      <div class="onb-nav">
+        <button class="cta" id="tour-next" type="button">Suivant</button>
+        <button class="link-btn" id="tour-skip" type="button">Passer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SOS -->
+<div class="sos" id="sos" role="dialog" aria-modal="true" aria-labelledby="sos-h" hidden>
+  <div class="sos-in">
+    <div class="sos-top">
+      <span class="pill"><span class="dot"></span>SOS envie</span>
+      <button class="btn-sm" id="sos-close" type="button">Fermer</button>
+    </div>
+    <h2 id="sos-h">10 minutes pour laisser passer la vague</h2>
+    <div class="breath" id="breath"><span id="sos-label">Prêt ?</span></div>
+    <div class="timer" id="sos-time">10:00</div>
+    <div class="block" style="width:100%;text-align:left">
+      <h3 id="sos-title">Avant de commencer</h3>
+      <p id="sos-text">Une envie monte, atteint un pic, puis redescend. Il suffit de l'attendre en faisant autre chose.</p>
+    </div>
+    <div class="block" id="sos-plan" style="width:100%;text-align:left" hidden>
+      <h3>Ton plan</h3>
+      <div id="sos-plan-list"></div>
+    </div>
+    <div class="actions" style="width:100%">
+      <button class="cta" id="sos-start" type="button">Lancer les 10 minutes</button>
+      <div class="actions" id="sos-end" hidden>
+        <button class="cta" id="sos-held" type="button">Je tiens, retour au défi</button>
+        <button class="cta-alt" id="sos-again" type="button">L'envie est encore là, 10 minutes de plus</button>
+      </div>
+      <button class="cta-alt" id="sos-ai" type="button">En parler à l'IA</button>
+      <button class="link-btn" id="sos-slip" type="button">J'ai déjà craqué</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const DAYS = [
+  ["Lancement", "Le départ", "Motivation forte et un peu d'appréhension. Rien ne change encore de façon visible.", "Écris en une phrase pourquoi tu commences. Retire de ton téléphone ce qui te pousse à craquer."],
+  ["Lancement", "Premiers réflexes", "Des pensées reviennent par habitude, surtout le soir ou quand on est seul.", "Repère l'heure où elles arrivent et prévois une activité à ce moment-là."],
+  ["Lancement", "Le pic d'envie", "Beaucoup rapportent que les jours 3 à 5 sont les plus tentants, le temps que l'habitude se défasse.", "Fais ta séance de sport. Si l'envie monte, sors marcher ou prends une douche."],
+  ["Adaptation", "Irritabilité possible", "Certains se sentent plus à fleur de peau ou fatigués. Ça passe souvent en quelques jours.", "Dors 7 à 8 heures, bois de l'eau et évite les écrans au lit."],
+  ["Adaptation", "Tenir le rythme", "L'humeur peut monter et descendre dans la journée.", "Garde des horaires réguliers pour les repas et le sommeil."],
+  ["Adaptation", "Un peu plus de clarté", "Quelques-uns disent avoir la tête plus claire le matin.", "Utilise ce moment pour la tâche la plus importante de ta journée."],
+  ["Adaptation", "Une semaine", "Fierté et sentiment de discipline reviennent souvent à ce stade.", "Note ce qui a le mieux marché cette semaine et garde-le."],
+  ["Premier cap", "Nouveau départ", "Après la première semaine, l'envie peut baisser ou revenir par vagues.", "Écris ton plan : quoi faire quand l'envie arrive (appeler quelqu'un, sortir, séance courte)."],
+  ["Premier cap", "Énergie", "Certains rapportent plus d'énergie physique et plus d'envie de bouger.", "Ajoute 10 minutes de cardio ou de mobilité à ta séance."],
+  ["Premier cap", "Confiance", "Certains disent se sentir plus à l'aise avec les autres.", "Fais un premier pas social : un message, une discussion, une sortie."],
+  ["Premier cap", "Vagues d'humeur", "Des hauts et des bas sont possibles. Ce n'est pas un échec.", "Respire 5 minutes, marche, écris ce que tu ressens."],
+  ["Premier cap", "Concentration", "Quelques-uns notent une meilleure concentration au travail ou aux études.", "Travaille 45 minutes sans téléphone, puis fais 10 minutes de pause."],
+  ["Premier cap", "Sommeil", "Le sommeil s'améliore chez certains et reste agité chez d'autres.", "Coupe les écrans 30 minutes avant de dormir."],
+  ["Premier cap", "Deux semaines", "Un cap mental important : tu as prouvé que tu peux tenir.", "Relis ta phrase du jour 1 et accorde-toi une vraie pause plaisir, sans excès."],
+  ["Stabilité", "Le piège du « je peux relâcher »", "Après un bon cap, certains baissent leur garde. Les rechutes arrivent souvent ici.", "Ne change pas ton plan. Évite les contenus qui te déclenchent."],
+  ["Stabilité", "Routine solide", "Pour beaucoup, tout devient plus automatique.", "Garde tes horaires et ta séance, même les jours sans motivation."],
+  ["Stabilité", "Se fixer un objectif", "Une envie de se lancer des défis plus grands est fréquente.", "Choisis un objectif sportif à atteindre d'ici la fin du mois."],
+  ["Stabilité", "Énergie stable", "Moins de pics et de creux d'énergie pour certains.", "Planifie tes repas de la semaine pour garder un rythme régulier."],
+  ["Stabilité", "Faire le point", "L'humeur se stabilise chez certains, les cycles restent normaux chez d'autres.", "Note ton sommeil, ton alimentation et ton sport de la semaine."],
+  ["Stabilité", "Connaître ses déclencheurs", "Tu repères mieux ce qui provoque les envies.", "Écris tes 3 déclencheurs principaux et ta réponse à chacun."],
+  ["Stabilité", "Trois semaines", "On dit souvent qu'une habitude s'installe vers 3 semaines. C'est une moyenne, pas une règle.", "Note ton état actuel pour pouvoir le comparer dans 10 jours."],
+  ["Ancrage", "Relations", "Certains rapportent plus d'attention aux autres et plus d'écoute.", "Passe du temps de qualité avec quelqu'un qui compte pour toi."],
+  ["Ancrage", "Projets", "L'envie de construire quelque chose revient souvent.", "Choisis un projet à lancer ce mois-ci et fais la première étape aujourd'hui."],
+  ["Ancrage", "Corps", "Les sensations de forme physique varient d'une personne à l'autre.", "Fais une séance qui te challenge un peu plus que d'habitude."],
+  ["Ancrage", "Calme", "Certains décrivent plus de calme au quotidien.", "Marche 10 minutes sans téléphone ou fais un exercice de respiration."],
+  ["Ancrage", "Test de volonté", "Une envie soudaine peut revenir même après des semaines.", "Applique ton plan des 3 déclencheurs, sans te juger."],
+  ["Ancrage", "Ce que tu as appris", "Tu n'es plus au même point qu'au jour 1 côté habitudes.", "Écris ce que tu as appris sur toi depuis le début."],
+  ["Ancrage", "Presque au bout", "Un mélange de fierté et d'impatience.", "Prépare l'après : quelles règles veux-tu garder ?"],
+  ["Ancrage", "La veille", "Rien de nouveau, juste la constance.", "Reste simple. Garde ton rythme habituel."],
+  ["Ancrage", "Trente jours", "Fierté et sentiment d'accomplissement sont fréquents. Ce que tu ressens reste personnel.", "Décide de la suite : continuer, ajuster ou faire une pause, selon ce qui te convient."]
+];
+const FEELS = ["Plus d'énergie", "Meilleure concentration", "Irritabilité", "Fatigue", "Grosses envies", "Sommeil agité", "Rien de particulier"];
+const STARTERS = ["J'ai une grosse envie, que faire ?", "Je suis irritable, c'est normal ?", "J'ai craqué, et maintenant ?"];
+const TRIGGERS = ["Ennui", "Stress", "Solitude le soir", "Contenu en ligne", "Fatigue", "Habitude / réflexe", "Autre"];
+const LESSONS = {
+  "Ennui": ["Quand rien ne l'occupe, le cerveau cherche une récompense facile. L'ennui est un signal, pas une fatalité.", "Prépare 3 activités prêtes à l'emploi pour les moments creux : une séance courte, un appel, une lecture."],
+  "Stress": ["Beaucoup utilisent ce geste pour évacuer la tension. Le soulagement dure peu et la tension revient.", "Dès que la tension monte, fais 5 minutes de respiration lente ou une marche rapide avant de décider quoi que ce soit."],
+  "Solitude le soir": ["Seul, au lit, avec le téléphone : c'est le scénario le plus cité. Le risque vient surtout du contexte.", "Charge ton téléphone hors de la chambre et couche-toi plus tôt. Ne reste pas seul dans ton lit sans dormir."],
+  "Contenu en ligne": ["Les contenus qui excitent créent des envies qu'on n'aurait pas eues autrement.", "Bloque ou supprime les comptes et sites déclencheurs, et limite ton temps d'écran le soir."],
+  "Fatigue": ["Quand on est épuisé, la volonté baisse. Une chute en fin de journée est souvent un problème de sommeil.", "Protège 7 à 8 heures de sommeil et garde des horaires réguliers, surtout le soir."],
+  "Habitude / réflexe": ["Certains gestes se font en pilote automatique, à la même heure et au même endroit.", "Change le lieu et le moment : quitte la pièce et bouge dès que le réflexe arrive."],
+  "Autre": ["Chaque chute a un contexte. Le repérer est déjà la moitié du travail.", "Note la situation précise : où, quand, avec quoi. Puis choisis une action de remplacement pour la prochaine fois."]
+};
+const SINCE = ["Moins d'un an", "1 à 3 ans", "Plus de 3 ans"];
+const FREQ = ["Tous les jours", "Plusieurs fois par semaine", "Une fois par semaine ou moins"];
+const GOALS = [["stop", "Arrêter complètement pendant 30 jours"], ["reduce", "Réduire et reprendre le contrôle"], ["learn", "Surtout comprendre"]];
+const HABITS = [
+  { id: "sport", label: "Séance ou 30 minutes de mouvement" },
+  { id: "sleep", label: "Couché à une heure qui laisse 7 à 8 heures de sommeil" },
+  { id: "screen", label: "Écrans coupés 30 minutes avant de dormir" },
+  { id: "water", label: "Assez d'eau bue dans la journée" },
+  { id: "trig", label: "Évité mes contenus déclencheurs" }
+];
+const DAYLESS = [
+[
+"Un objectif clair tient mieux qu'une vague envie de changer. Savoir pourquoi tu commences est ce qui te porte dans les jours difficiles.",
+"Écris ta raison en une phrase et mets-la en fond d'écran ou dans tes notes.",
+"Si dans 30 jours tu es fier de toi, qu'est-ce qui aura changé ?"
+],
+[
+"Une habitude s'appuie sur un signal. Tant que tu ne vois pas ce signal (heure, lieu, appli), tu le subis.",
+"Note à quel moment de la journée l'envie est la plus forte. Prévois une activité à cet horaire.",
+"Quel est ton moment le plus fragile, et que peux-tu y mettre à la place ?"
+],
+[
+"Une envie monte, atteint un pic, puis redescend. Tu n'as pas besoin de la faire disparaître, seulement de la laisser passer.",
+"La prochaine fois qu'une envie arrive, observe-la 5 minutes sans agir, comme une vague. Respire lentement.",
+"Comment était l'envie quand tu l'as juste observée ?"
+],
+[
+"Quand tu es fatigué, tout est plus difficile : le manque de sommeil baisse la maîtrise de soi.",
+"Couche-toi 30 minutes plus tôt qu'hier. Pas d'écran au lit.",
+"Quel lien vois-tu entre ta fatigue et tes envies ?"
+],
+[
+"Ton téléphone est souvent le premier déclencheur. Changer l'environnement est plus efficace que compter sur la volonté.",
+"Pose ton téléphone hors du lit la nuit. Supprime ou bloque ce qui te pousse à craquer.",
+"Quel contenu ou quelle appli te met le plus en difficulté ?"
+],
+[
+"Le stress cherche une porte de sortie rapide. Il existe d'autres sorties : bouger, respirer, parler.",
+"Choisis ta sortie anti-stress (marche, pompes, appel) et fais-la une fois aujourd'hui, même sans envie.",
+"Qu'est-ce qui te détend vraiment, sans écran ?"
+],
+[
+"Une semaine, c'est un vrai pas. Ce qui compte maintenant est de repérer ce qui t'a aidé, pas de te féliciter à l'excès.",
+"Relis tes notes de la semaine et garde les 2 choses qui ont le mieux marché.",
+"Qu'as-tu appris sur toi cette semaine ?"
+],
+[
+"Un plan « si… alors… » marche mieux qu'une bonne résolution : tu décides à l'avance quoi faire.",
+"Écris 3 phrases : « Si j'ai envie quand…, alors je… ». Garde-les sous la main.",
+"Quel est le plan le plus réaliste pour ton moment le plus difficile ?"
+],
+[
+"Bouger aide à passer une envie et améliore le sommeil et l'humeur. Le sport est un allié, pas une punition.",
+"Fais 10 minutes de mouvement de plus que d'habitude, au moment où tu es le plus tenté.",
+"Quand te sens-tu le mieux après le sport ?"
+],
+[
+"La confiance vient des preuves : chaque promesse tenue envers toi-même en est une.",
+"Fais une petite chose que tu repoussais (un message, un rangement) et note-la.",
+"Quelle promesse as-tu tenue récemment et comment te sens-tu ?"
+],
+[
+"Les émotions vont et viennent. Les nommer précisément (« je suis anxieux », « je m'ennuie ») les rend plus faciles à gérer.",
+"Trois fois aujourd'hui, nomme ton émotion en un mot dans ton journal.",
+"Quelle émotion revient le plus souvent avant une envie ?"
+],
+[
+"L'attention se travaille. Chaque fois que tu résistes à un réflexe, tu t'entraînes à la diriger.",
+"Travaille 45 minutes sans téléphone, puis fais une pause de 10 minutes.",
+"Qu'est-ce qui te distrait le plus quand tu essaies de te concentrer ?"
+],
+[
+"Un bon sommeil réduit les envies et améliore l'humeur. Il se prépare en fin de journée, pas au lit.",
+"Fixe une heure de coucher et coupe les écrans 30 minutes avant.",
+"Quelle habitude du soir te fait perdre du sommeil ?"
+],
+[
+"Deux semaines : le plus dur est souvent la routine qui s'installe. C'est le moment de vérifier ton plan.",
+"Relis ton plan « si… alors… » et ajuste-le avec ce que tu as appris.",
+"Qu'est-ce qui fonctionne dans ton plan, et qu'est-ce qui ne fonctionne pas ?"
+],
+[
+"L'ennui est un grand déclencheur. Avoir une liste d'activités prêtes évite de décider dans l'urgence.",
+"Écris 5 activités de 10 minutes que tu peux faire n'importe quand.",
+"Quelle activité te prend vraiment tout entier ?"
+],
+[
+"Se comparer aux autres (séries, récits en ligne) fait plus de mal que de bien. Ton chemin est à toi.",
+"Ne regarde aucune série ni aucun témoignage d'autres personnes aujourd'hui.",
+"Quelle comparaison te met le plus de pression ?"
+],
+[
+"La solitude pèse souvent sur les envies. Un lien humain vaut mieux que de l'isolement.",
+"Parle à quelqu'un aujourd'hui : un ami, un proche ou un coach de sport.",
+"À qui peux-tu parler sans te sentir jugé ?"
+],
+[
+"Tu n'as pas besoin d'être parfait : ce qui compte, c'est la direction. Un écart ne détruit pas ce que tu as appris.",
+"Écris ce que tu ferais si tu craquais demain : comment tu repartirais sans te juger.",
+"Comment veux-tu te parler à toi-même si tu rates un jour ?"
+],
+[
+"Le corps et le mental vont ensemble. Manger, bouger, dormir régulièrement donne une base stable.",
+"Prévois 3 repas réguliers et de l'eau toute la journée.",
+"Quelle habitude simple te fait du bien chaque jour ?"
+],
+[
+"Les valeurs donnent du sens à l'effort : ce n'est pas seulement résister, c'est aller vers quelque chose.",
+"Écris 3 choses qui comptent pour toi (famille, sport, projet…) et une action pour l'une d'elles.",
+"Qu'est-ce qui compte le plus pour toi à long terme ?"
+],
+[
+"Trois semaines : félicite-toi pour l'effort, pas seulement pour le chiffre. Reste vigilant, la routine ne protège pas de tout.",
+"Fais le point sur tes déclencheurs : lesquels ont baissé, lesquels restent ?",
+"Quel déclencheur a le plus changé depuis le début ?"
+],
+[
+"Les réseaux sociaux entretiennent les envies par les images. Choisir ce que tu regardes est un acte de liberté.",
+"Nettoie ton fil : désabonne-toi d'au moins 3 comptes qui te tentent.",
+"Qu'est-ce que tu ressens après avoir passé du temps sur les réseaux ?"
+],
+[
+"Les relations réelles demandent du courage mais apportent plus que les écrans.",
+"Prends l'initiative d'une discussion ou d'une sortie.",
+"Quelle relation aimerais-tu entretenir davantage ?"
+],
+[
+"La honte nourrit le cycle de la chute. La bienveillance envers soi aide à repartir.",
+"Écris-toi un court message d'encouragement comme à un ami.",
+"Qu'est-ce que tu dirais à un ami dans ta situation ?"
+],
+[
+"Une routine du matin simple donne le ton de la journée : eau, lumière, mouvement.",
+"Fais ta routine du matin (eau, 5 minutes de mobilité) avant de toucher ton téléphone.",
+"Qu'est-ce que tu veux faire en premier chaque matin ?"
+],
+[
+"Les petites victoires s'additionnent. Les repérer les rend visibles.",
+"Note 3 petites victoires de cette semaine, même minuscules.",
+"Quelle victoire t'a le plus surpris ?"
+],
+[
+"Tenir à long terme demande un système : environnement, plan, soutien, repos. Pas de la volonté pure.",
+"Écris ton « système » en 4 lignes : environnement, plan, soutien, repos.",
+"Lequel de ces 4 éléments est ton point fort ?"
+],
+[
+"Presque au bout : prépare l'après. Que gardes-tu comme règles ?",
+"Choisis 3 habitudes du défi à garder après le jour 30.",
+"Quelles règles simples veux-tu garder ?"
+],
+[
+"Une dernière ligne droite. Reste concentré sur aujourd'hui, comme depuis le début.",
+"Relis ta raison du jour 1 et vois ce qui a changé.",
+"Qu'est-ce qui est différent depuis le jour 1 ?"
+],
+[
+"Bravo pour le chemin parcouru. Le plus important n'est pas le chiffre, mais ce que tu as appris sur toi et ce que tu en feras.",
+"Fais ton bilan final dans le journal : ce que tu gardes, ce que tu changes.",
+"Quelle est la prochaine étape pour toi, après ces 30 jours ?"
+]
+];
+const PARTS = [
+  ["Comment fonctionne une envie", [
+    "Une envie ressemble à une vague : elle monte, atteint un pic, puis redescend, en général en quelques minutes si on ne la suit pas.",
+    "Chaque fois qu'on cède, le cerveau renforce le lien « envie, puis récompense ». Chaque fois qu'on attend, ce lien s'affaiblit un peu.",
+    "Ce qui compte le plus n'est pas la volonté du moment, mais ce qui déclenche l'envie : ennui, stress, solitude, écrans, fatigue."
+  ]],
+  ["Ce que la science dit, et ne dit pas", [
+    "Aucune étude solide ne montre que retenir apporte des effets particuliers sur le corps ou l'esprit. Les récits d'énergie, de confiance ou de clarté sont des témoignages.",
+    "Une partie de ces effets vient sans doute de ce qui accompagne le défi : plus de sport, un meilleur sommeil, moins d'écrans et le sentiment de tenir un engagement.",
+    "Se masturber ou avoir des rapports n'est pas dangereux en soi. Ça devient un problème quand on a l'impression de ne plus pouvoir s'arrêter, ou que ça va contre ses propres valeurs."
+  ]],
+  ["Pourquoi ce défi peut aider", [
+    "Pour quelqu'un qui se sent piégé par une habitude, un défi clair redonne un cadre : un jour à la fois, avec un bilan.",
+    "Il libère du temps et de l'énergie mentale que tu peux mettre dans le sport, les études, un projet ou tes relations.",
+    "Tenir quelques semaines prouve que tu peux changer une habitude. Cette confiance-là te sert ensuite bien au-delà du défi."
+  ]],
+  ["Le porno et les attentes irréalistes", [
+    "Certaines personnes disent que l'usage fréquent de porno leur donne des attentes irréalistes, de la honte ou moins d'intérêt pour la vraie vie. Ce n'est pas le cas de tout le monde.",
+    "Si c'est ton cas, le levier le plus efficace est de couper les déclencheurs : bloquer les sites, ne pas garder ton téléphone au lit, limiter les réseaux le soir.",
+    "En couple, en parler à ton ou ta partenaire aide souvent plus que se taire."
+  ]],
+  ["Pourquoi on craque, et comment éviter de recommencer", [
+    "Les chutes arrivent surtout quand on est fatigué, seul, stressé ou qu'on s'ennuie. Elles sont rarement un manque de caractère.",
+    "Prépare des plans du type « si ça arrive, alors je fais ça » : si j'ai envie le soir, alors je sors marcher 10 minutes.",
+    "Après une chute, analyse sans te juger : qu'est-ce qui l'a déclenchée, que feras-tu différemment ? Le journal de chutes est là pour ça."
+  ]],
+  ["Les dérives à éviter", [
+    "Certaines communautés mêlent rétention, mépris des femmes, culpabilité et promesses de super-pouvoirs. Rien de tout ça n'a sa place ici.",
+    "Tu n'es pas faible parce que tu craques, et tu n'es pas supérieur parce que tu tiens.",
+    "Ne te compare pas aux séries des autres : seule ta progression compte."
+  ]],
+  ["Quand demander de l'aide", [
+    "Parle à un médecin, un sexologue ou un psychologue si tu n'arrives pas à contrôler cette habitude malgré tes efforts, si elle abîme ton travail, tes études ou ton couple, ou si tu as des douleurs ou des troubles sexuels.",
+    "En cas de tristesse profonde, d'anxiété forte ou de pensées sombres, n'attends pas : parle à un proche ou à un professionnel. En France, le 3114 répond 24 h sur 24 en cas de pensées suicidaires.",
+    "Les centres d'addictologie (CSAPA) peuvent t'accueillir gratuitement si tu n'arrives pas à gérer un comportement compulsif."
+  ]],
+  ["Mythes et faits", [
+    "Mythe : « Après 7 jours, la testostérone explose. » Fait : cette idée vient d'une petite étude de 2003 sur 28 hommes. Elle a été rétractée en décembre 2021 et ne doit plus servir de preuve.",
+    "Mythe : « Retenir donne des super-pouvoirs. » Fait : aucune étude solide ne le montre. Les récits d'énergie ou de confiance sont des témoignages, souvent liés au sport, au sommeil et à la discipline.",
+    "Mythe : « Se masturber rend malade ou faible. » Fait : ce n'est pas dangereux en soi. Le problème, c'est quand tu perds le contrôle ou que ça va contre tes valeurs.",
+    "Mythe : « Si je craque, tout est perdu. » Fait : une chute est une information. Elle montre un déclencheur à travailler, pas un échec de ta personne.",
+    "Source de la rétractation : Journal of Applied Physiology, notice de rétractation de l'étude de Jiang et al. (2003), décembre 2021. Cherche le titre pour la lire toi-même."
+  ]],
+  ["Comment fonctionne une habitude", ["Une habitude suit presque toujours la même boucle : un signal (un lieu, une heure, une émotion), une routine, puis une récompense. Le cerveau retient ce qui soulage vite.", "Tu n'as pas besoin de supprimer le signal : tu peux garder le signal et changer la routine. Par exemple, quand tu t'ennuies le soir, tu marches 10 minutes au lieu de prendre ton téléphone.", "Rends le comportement que tu veux éviter plus difficile (téléphone dans une autre pièce, applis bloquées) et celui que tu veux garder plus facile (chaussures de sport près de la porte).", "Combien de temps faut-il pour qu'une habitude s'installe ? Une étude souvent citée (Lally et collègues, 2010) a trouvé des délais très variables selon les personnes, de quelques semaines à plus de huit mois. Les « 21 jours » magiques sont un mythe."]],
+  ["Le sommeil, ton meilleur allié", ["Les adultes ont en général besoin d'au moins 7 heures de sommeil par nuit. Dormir moins rend les envies plus difficiles à contrôler et l'humeur plus fragile.", "Garde des horaires réguliers, même le week-end. Coupe les écrans 30 minutes avant de dormir et garde ta chambre sombre et plutôt fraîche.", "Évite la caféine en fin de journée et les repas très lourds le soir. Une lumière naturelle le matin aide ton corps à se caler.", "Si tu n'arrives pas à t'endormir, ne reste pas au lit à scroller : lève-toi, fais quelque chose de calme, puis reviens."]],
+  ["Le sport et ton corps", ["L'Organisation mondiale de la santé recommande aux adultes au moins 150 minutes d'activité modérée par semaine, et du renforcement musculaire au moins 2 jours par semaine.", "Le sport aide l'humeur, le sommeil et la gestion du stress. Ce n'est pas une promesse de résultat rapide : c'est un outil parmi d'autres.", "Commence par ce que tu peux tenir : 3 séances courtes valent mieux qu'une séance énorme suivie de 10 jours de pause.", "Prévois du repos : le corps progresse pendant la récupération. Mange assez et bois de l'eau. En cas de douleur ou de doute médical, demande l'avis d'un professionnel."]],
+  ["Gérer le stress et les émotions", ["Le stress cherche souvent une sortie rapide. Si tu n'as pas d'autre sortie, le vieux réflexe revient.", "Nommer précisément ce que tu ressens (« je suis anxieux », « je suis frustré ») calme déjà un peu. Écris-le en un mot dans ton journal.", "Respire lentement : expire plus longtemps que tu inspires, pendant 2 minutes. Marche, étire-toi, bois de l'eau.", "Parler à quelqu'un de confiance soulage souvent plus que de tout garder pour soi. Si le stress dure ou devient écrasant, un psychologue ou un médecin peut t'aider."]],
+  ["Écrans et réseaux sociaux", ["Les applis sont conçues pour retenir ton attention. Ce n'est pas un manque de volonté si tu y passes du temps : c'est leur travail.", "Nettoie ton fil : désabonne-toi des comptes qui te tentent ou te mettent mal. Désactive les notifications inutiles.", "Laisse ton téléphone hors de la chambre la nuit et loin de toi pendant que tu travailles.", "Remplace une partie du temps d'écran par une activité qui te tient vraiment : sport, musique, lecture, un projet, un ami."]],
+  ["Relations, respect et confiance", ["La confiance en soi vient surtout de preuves : tenir une promesse envers toi, finir une tâche, oser une conversation.", "Les vraies relations demandent d'écouter, d'être honnête et de respecter l'autre. Respecter les femmes, comme tout le monde, c'est aussi respecter son consentement et ses limites.", "Éviter de te comparer aux autres, aux séries et aux récits en ligne : ils montrent rarement la réalité.", "Si tu te sens seul, parle à un ami, à un proche ou à un coach de sport. Demander de l'aide est une force."]],
+  ["Se relever après une chute", ["Une chute est une information, pas une sentence. Les travaux en psychologie suggèrent que se parler avec bienveillance aide à reprendre plus vite qu'une autocritique dure.", "Reprends en 4 étapes : nomme le déclencheur (fatigue, stress, ennui, écran), répare les bases (dors, mange, bouge), prévois un plan pour la prochaine fois, puis reviens au défi dès aujourd'hui.", "Dans l'application, le jour de la chute devient rouge mais le défi continue. Ta série repart à zéro, ton programme avance, et ton record reste.", "Si les chutes se répètent, parle à un professionnel : ce n'est pas un échec de caractère."]],
+  ["Ta routine du matin et du soir", ["Une routine simple enlève des décisions et protège ton énergie. Elle doit rester courte pour être tenable.", "Matin : de l'eau, de la lumière du jour, 5 minutes de mobilité, et pas de téléphone pendant les 15 premières minutes.", "Soir : prépare le lendemain, coupe les écrans 30 minutes avant de dormir, note ton humeur dans le Journal et relis ton plan SOS.", "Commence par une seule habitude du matin et une seule du soir. Ajoute-en une autre seulement quand la première est facile."]]
+];
+const SOS_PHASES = [
+  [0, "Respire", "Inspire par le nez 4 secondes, expire 6 secondes. L'envie est une vague : elle passe."],
+  [60, "Bouge", "Fais 15 pompes ou 20 squats, puis marche vite. Le corps d'abord, la tête suit."],
+  [240, "Change d'endroit", "Quitte la pièce, sors dehors ou passe de l'eau froide sur le visage. Pose ton téléphone."],
+  [420, "Occupe-toi", "Fais une tâche simple : ranger, passer un appel, lire quelques pages. Tu y es presque."]
+];
+
+const KEY2 = 'defi30-v2', KEY1 = 'defi30-v1';
+const $ = id => document.getElementById(id);
+function dkey(d) {
+  return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+}
+
+let S = { streak: 0, past: 0, slips: [], profile: null, habits: {}, journal: {}, hw: {}, refl: {}, dx: {}, a18: false, plan: ['', '', ''], sd: {}, seen: '', tour: false, duo: {}, pin: '', cel: null };
+function load() {
+  try {
+    const raw = localStorage.getItem(KEY2) || localStorage.getItem(KEY1);
+    if (!raw) return;
+    const p = JSON.parse(raw);
+    if (!p || typeof p.streak !== 'number') return;
+    S.streak = Math.min(30, Math.max(0, p.streak | 0));
+    if (p.sd && typeof p.sd === 'object') Object.keys(p.sd).forEach(k => { const n = +k; if (n >= 1 && n <= 30 && p.sd[k]) S.sd[n] = true; });
+    S.past = (p.past | 0) || ((p.best | 0) > S.streak ? (p.best | 0) : 0);
+    if (Array.isArray(p.slips)) {
+      S.slips = p.slips.filter(s => s && typeof s.t === 'string' && typeof s.from === 'number')
+        .map(s => ({ d: s.d | 0, t: s.t, from: s.from | 0, pp: s.pp | 0, cl: typeof s.cl === 'number' ? s.cl | 0 : s.from | 0, to: s.to | 0 }));
+    }
+    const pr = p.profile;
+    if (pr && typeof pr.goal === 'string') {
+      S.profile = {
+        goal: pr.goal, since: String(pr.since || ''), freq: String(pr.freq || ''), tried: String(pr.tried || ''), hard: String(pr.hard || ''), why: String(pr.why || ''),
+        triggers: Array.isArray(pr.triggers) ? pr.triggers.filter(x => typeof x === 'string').slice(0, 7) : []
+      };
+    }
+    if (p.habits && typeof p.habits === 'object') {
+      Object.keys(p.habits).forEach(k => {
+        if (/^\d{4}-\d{2}-\d{2}$/.test(k) && Array.isArray(p.habits[k])) {
+          S.habits[k] = p.habits[k].filter(id => HABITS.some(h => h.id === id));
+        }
+      });
+    }
+    if (p.hw && typeof p.hw === 'object') {
+      Object.keys(p.hw).forEach(k => { const n = +k; if (n >= 1 && n <= 30 && p.hw[k]) S.hw[n] = true; });
+    }
+    if (p.refl && typeof p.refl === 'object') {
+      Object.keys(p.refl).forEach(k => { const n = +k; if (n >= 1 && n <= 30 && typeof p.refl[k] === 'string') S.refl[n] = p.refl[k].slice(0, 400); });
+    }
+    S.a18 = p.a18 === true;
+    S.tour = p.tour === true;
+    S.cel = Array.isArray(p.cel) ? p.cel.filter(x => [3, 7, 14, 21, 30].includes(x)) : null;
+    S.pin = typeof p.pin === 'string' && /^[0-9a-f]{8}$/.test(p.pin) ? p.pin : '';
+    if (p.duo && typeof p.duo === 'object') {
+      Object.keys(p.duo).forEach(k => {
+        const v = p.duo[k];
+        if (/^\d{4}-\d{2}-\d{2}$/.test(k) && v && typeof v === 'object') {
+          const o = {};
+          ['e', 'h', 's'].forEach(m => { const n = v[m] | 0; if (n >= 1 && n <= 5) o[m] = n; });
+          S.duo[k] = o;
+        }
+      });
+    }
+    S.seen = typeof p.seen === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(p.seen) ? p.seen : '';
+    if (Array.isArray(p.plan)) S.plan = [0, 1, 2].map(i => String(p.plan[i] || '').slice(0, 80));
+    if (p.dx && typeof p.dx === 'object') {
+      Object.keys(p.dx).forEach(k => { if (/^[a-z0-9]{1,12}$/.test(k) && p.dx[k]) S.dx[k] = true; });
+    }
+    if (p.journal && typeof p.journal === 'object') {
+      Object.keys(p.journal).forEach(k => {
+        const v = p.journal[k];
+        if (/^\d{4}-\d{2}-\d{2}$/.test(k) && v && typeof v === 'object') {
+          S.journal[k] = { m: Math.min(5, Math.max(0, v.m | 0)), n: String(v.n || '').slice(0, 400) };
+        }
+      });
+    }
+  } catch (e) {}
+}
+var auth = null, pushT = 0;
+function save() { try { localStorage.setItem(KEY2, JSON.stringify(S)); } catch (e) {} if (auth && sbOn()) schedulePush(); }
+function cleanNow() { let c = 0; for (let i = S.streak; i >= 1 && !S.sd[i]; i--) c++; return c; }
+function bestRun() { let b = 0, c = 0; for (let i = 1; i <= S.streak; i++) { if (S.sd[i]) c = 0; else { c++; if (c > b) b = c; } } return b; }
+function bestOf() { return Math.max(S.past, bestRun()); }
+load();
+let welcomeDays = 0;
+if (S.profile && S.seen) {
+  const a = new Date(S.seen + 'T00:00:00'), b = new Date(dkey(new Date()) + 'T00:00:00');
+  welcomeDays = Math.round((b - a) / 86400000);
+}
+S.seen = dkey(new Date());
+if (S.profile) save();
+
+let view = 'defi';
+let sel = Math.min(S.streak + 1, 30);
+let popDay = 0;
+let gridOpen = false;
+let slipStep = 0;
+let slipTrig = '';
+let openPart = -1;
+let jm = 0;
+let ob = { since: '', freq: '', tried: '', hard: '', why: '', goal: '', triggers: [] };
+let adultOk = false;
+
+function el(tag, cls, text) {
+  const n = document.createElement(tag);
+  if (cls) n.className = cls;
+  if (text != null) n.textContent = text;
+  return n;
+}
+function mkBtn(cls, text, onClick) {
+  const b = el('button', cls, text);
+  b.type = 'button';
+  if (onClick) b.addEventListener('click', onClick);
+  return b;
+}
+
+/* Navigation */
+const VIEWS = [["defi", "Défi"], ["ai", "IA"], ["learn", "Apprendre"], ["habits", "Habitudes"], ["journal", "Journal"], ["videos", "Vidéos"]];
+function setView(v) {
+  view = v;
+  if (v === 'journal') loadJournal();
+  render();
+  window.scrollTo({ top: 0 });
+}
+function askAI(t) {
+  setView('ai');
+  ask(t);
+  $('chat').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function renderTabs() {
+  const t = $('tabs');
+  t.replaceChildren();
+  VIEWS.forEach(([id, label]) => {
+    const b = mkBtn('tab', label, () => setView(id));
+    b.setAttribute('role', 'tab');
+    b.setAttribute('aria-selected', String(view === id));
+    t.appendChild(b);
+    if (view === id) t.scrollLeft = b.offsetLeft - (t.clientWidth - b.offsetWidth) / 2;
+  });
+  VIEWS.forEach(([id]) => { $('v-' + id).hidden = view !== id; });
+}
+
+/* Questionnaire de départ : écran d'accueil, puis une question par écran */
+const TRIED = ["Jamais", "Oui, moins de 7 jours", "Oui, entre 7 et 30 jours", "Oui, plus de 30 jours"];
+const HARD = ["Le soir", "La nuit", "Le matin", "Quand je suis seul", "Quand je m'ennuie", "Quand je suis stressé"];
+const WHY = ["Reprendre le contrôle", "Avoir plus d'énergie", "Avoir plus confiance en moi", "Mieux me concentrer", "Améliorer mes relations", "Progresser en sport", "Comprendre et tester"];
+const OB_STEPS = [
+  { key: 'since', title: 'Depuis combien de temps ?', opts: SINCE.map(x => [x, x]) },
+  { key: 'freq', title: "Où en es-tu aujourd'hui ?", opts: FREQ.map(x => [x, x]) },
+  { key: 'tried', title: "As-tu déjà essayé de t'arrêter ?", opts: TRIED.map(x => [x, x]) },
+  { key: 'hard', title: "À quel moment c'est le plus dur ?", opts: HARD.map(x => [x, x]) },
+  { key: 'triggers', title: 'Ce qui te déclenche le plus', opts: TRIGGERS.map(x => [x, x]), multi: true, hint: 'Plusieurs choix possibles. Tu peux passer cette question.' },
+  { key: 'why', title: 'Ta motivation principale ?', opts: WHY.map(x => [x, x]) },
+  { key: 'goal', title: 'Ton objectif', opts: GOALS }
+];
+let obStep = -1;
+function obAnswered(st) { return st.multi ? true : !!ob[st.key]; }
+function renderOb() {
+  const intro = obStep < 0;
+  $('onb-intro').hidden = !intro;
+  $('onb-q').hidden = intro;
+  if (intro) return;
+  const st = OB_STEPS[obStep];
+  const last = obStep === OB_STEPS.length - 1;
+  $('onb-step').textContent = 'Question ' + (obStep + 1) + ' sur ' + OB_STEPS.length;
+  $('onb-bar').style.width = ((obStep + 1) / OB_STEPS.length * 100) + '%';
+  $('onb-h').textContent = st.title;
+  $('onb-hint').hidden = !st.hint;
+  $('onb-hint').textContent = st.hint || '';
+  const box = $('onb-opts');
+  box.replaceChildren();
+  st.opts.forEach(o => {
+    const val = o[0], txt = o[1];
+    const on = st.multi ? ob[st.key].includes(val) : ob[st.key] === val;
+    const b = mkBtn('opt' + (on ? ' on' : ''), txt, () => {
+      if (st.multi) {
+        ob[st.key] = on ? ob[st.key].filter(x => x !== val) : ob[st.key].concat(val);
+        renderOb();
+        return;
+      }
+      ob[st.key] = val;
+      renderOb();
+      const at = obStep;
+      setTimeout(() => { if (obStep === at && at < OB_STEPS.length - 1) { obStep++; renderOb(); } }, 220);
+    });
+    b.setAttribute('aria-pressed', String(on));
+    box.appendChild(b);
+  });
+  $('onb-next').textContent = last ? 'Commencer le défi' : (st.multi && !ob[st.key].length ? 'Passer' : 'Continuer');
+  $('onb-next').disabled = !obAnswered(st);
+  $('onb-back').hidden = false;
+}
+$('age-ck').addEventListener('click', () => {
+  adultOk = !adultOk;
+  $('age-ck').setAttribute('aria-checked', String(adultOk));
+  $('onb-start').disabled = !adultOk;
+  $('age-msg').hidden = true;
+});
+$('onb-start').addEventListener('click', () => { if (!adultOk) { $('age-msg').hidden = false; return; } obStep = 0; renderOb(); window.scrollTo({ top: 0 }); });
+$('onb-back').addEventListener('click', () => { if (obStep >= 0) { obStep--; renderOb(); } });
+$('onb-next').addEventListener('click', () => {
+  if (!obAnswered(OB_STEPS[obStep])) return;
+  if (obStep < OB_STEPS.length - 1) { obStep++; renderOb(); return; }
+  if (!(ob.goal && ob.since && ob.freq && ob.tried && ob.hard && ob.why)) return;
+  S.profile = { goal: ob.goal, since: ob.since, freq: ob.freq, tried: ob.tried, hard: ob.hard, why: ob.why, triggers: ob.triggers.slice() };
+  save();
+  render();
+  window.scrollTo({ top: 0 });
+});
+
+/* Défi */
+function renderGrid() {
+  const g = $('grid');
+  g.replaceChildren();
+  g.hidden = !gridOpen;
+  const gt = $('grid-toggle');
+  gt.textContent = gridOpen ? 'Masquer les 30 jours' : 'Voir les 30 jours';
+  gt.setAttribute('aria-expanded', String(gridOpen));
+  const cur = S.streak + 1;
+  for (let d = 1; d <= 30; d++) {
+    const b = el('button', 'day', String(d));
+    b.type = 'button';
+    if (d <= S.streak) b.classList.add(S.sd[d] ? 'slip' : 'done');
+    if (d === cur) b.classList.add('cur');
+    if (d === sel) b.classList.add('sel');
+    if (d === popDay) b.classList.add('pop');
+    b.setAttribute('aria-label', 'Jour ' + d + (d <= S.streak ? (S.sd[d] ? ', chute' : ', validé') : ''));
+    b.addEventListener('click', () => { sel = d; slipStep = 0; slipTrig = ''; gridOpen = false; render(); window.scrollTo({ top: 0 }); });
+    g.appendChild(b);
+  }
+}
+
+$('grid-toggle').addEventListener('click', () => { gridOpen = !gridOpen; renderGrid(); });
+
+function undoTo(n) {
+  for (let i = n + 1; i <= 30; i++) delete S.sd[i];
+  S.slips = S.slips.filter(x => x.d <= n);
+  S.streak = n;
+  save(); render();
+}
+
+function validatedUI() {
+  const w = el('div', 'actions');
+  const done = el('button', 'cta done' + (S.sd[sel] ? ' slipbtn' : ''), S.sd[sel] ? 'Jour ' + sel + ' : chute enregistrée' : 'Jour ' + sel + ' validé');
+  done.type = 'button';
+  done.disabled = true;
+  w.appendChild(done);
+  const later = sel < S.streak;
+  const conf = el('div', 'confirm');
+  conf.hidden = true;
+  conf.appendChild(el('p', null, 'Le jour ' + sel + ' et les ' + (S.streak - sel) + ' jour(s) suivant(s) seront annulés. Tu reviendras au jour ' + sel + '.'));
+  const row = el('div', 'row');
+  const undo = mkBtn('cta-alt', 'Annuler ce jour', () => {
+    if (!later) { undoTo(sel - 1); return; }
+    conf.hidden = false; undo.hidden = true;
+  });
+  row.appendChild(mkBtn('btn-sm primary', 'Oui, annuler', () => { undoTo(sel - 1); }));
+  row.appendChild(mkBtn('btn-sm', 'Garder', () => { conf.hidden = true; undo.hidden = false; }));
+  conf.appendChild(row);
+  w.appendChild(undo);
+  w.appendChild(conf);
+  return w;
+}
+
+function todayUI() {
+  const w = el('div', 'actions');
+  const ok = mkBtn('cta', "J'ai tenu le jour " + sel, () => {
+    S.streak = sel;
+    save();
+    popDay = sel;
+    sel = Math.min(S.streak + 1, 30);
+    render();
+  });
+  w.appendChild(ok);
+  w.appendChild(mkBtn('cta-alt', "J'ai craqué", () => { slipStep = 1; renderDetail(); }));
+  return w;
+}
+
+function slipUI() {
+  const w = el('div', 'actions');
+  if (slipStep === 1) {
+    const b = el('div', 'block');
+    b.appendChild(el('h3', null, 'Pas de jugement'));
+    b.appendChild(el('p', null, "Une chute n'efface pas ce que tu as construit. L'important est de comprendre ce qui s'est passé pour ne pas la répéter."));
+    w.appendChild(b);
+    w.appendChild(el('p', 'label', "Qu'est-ce qui l'a déclenchée ?"));
+    const chips = el('div', 'chips');
+    TRIGGERS.forEach(t => {
+      chips.appendChild(mkBtn('chip' + (t === slipTrig ? ' on' : ''), t, () => { slipTrig = t; renderDetail(); }));
+    });
+    w.appendChild(chips);
+    const next = mkBtn('cta', 'Continuer', () => { slipStep = 2; renderDetail(); });
+    next.disabled = !slipTrig;
+    w.appendChild(next);
+    w.appendChild(mkBtn('cta-alt', "Annuler, je n'ai pas craqué", () => { slipStep = 0; slipTrig = ''; renderDetail(); }));
+  } else {
+    const L = LESSONS[slipTrig] || LESSONS["Autre"];
+    const b1 = el('div', 'block');
+    b1.appendChild(el('h3', null, "Ce que ça t'apprend"));
+    b1.appendChild(el('p', null, L[0]));
+    w.appendChild(b1);
+    const b2 = el('div', 'block');
+    b2.appendChild(el('h3', null, 'Ton plan pour la prochaine fois'));
+    b2.appendChild(el('p', null, L[1]));
+    w.appendChild(b2);
+    const info = el('div', 'block');
+    info.appendChild(el('h3', null, 'Le défi continue'));
+    info.appendChild(el('p', null, 'Le jour ' + sel + ' sera marqué en rouge et tu passes au jour suivant. Ta série propre repart à 0, mais tu gardes tout ton programme.'));
+    w.appendChild(info);
+    w.appendChild(mkBtn('cta', 'Enregistrer et continuer', () => {
+      S.slips.push({ d: sel, t: slipTrig, from: S.streak, pp: S.past, cl: cleanNow(), to: sel });
+      S.sd[sel] = true;
+      S.streak = sel;
+      save();
+      slipStep = 0; slipTrig = ''; sel = Math.min(S.streak + 1, 30);
+      render();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }));
+    w.appendChild(mkBtn('cta-alt', "En parler à l'IA", () => {
+      askAI("J'ai craqué au jour " + sel + ". Le déclencheur : " + slipTrig.toLowerCase() + ". Aide-moi à préparer un plan pour la prochaine fois.");
+    }));
+    w.appendChild(mkBtn('link-btn', 'Retour', () => { slipStep = 1; renderDetail(); }));
+  }
+  return w;
+}
+
+const BILANS = [7, 14, 21, 28, 30];
+function bilanUI(d) {
+  const from = d === 30 ? 29 : d - 6;
+  let hw = 0, rf = 0;
+  for (let i = from; i <= d; i++) { if (S.hw[i]) hw++; if (S.refl[i]) rf++; }
+  let days = 0, sl = 0;
+  for (let i = from; i <= Math.min(S.streak, d); i++) { if (S.sd[i]) sl++; else days++; }
+  const b = el('div', 'block bilan');
+  b.appendChild(el('h3', null, d === 30 ? 'Bilan final' : 'Bilan de la semaine'));
+  b.appendChild(el('p', null, 'Jours ' + from + ' à ' + d + ' : ' + days + ' tenu(s), ' + sl + ' chute(s), ' + hw + ' devoir(s) faits, ' + rf + ' réflexion(s) écrites.'));
+  const q = d === 30
+    ? "Qu'est-ce que tu gardes de ces 30 jours, et qu'est-ce que tu changes ?"
+    : "Qu'est-ce qui a le mieux marché cette semaine, et qu'est-ce que tu ajustes pour la suivante ?";
+  b.appendChild(el('p', 'fine', q));
+  return b;
+}
+
+function renderDetail() {
+  const box = $('detail');
+  box.replaceChildren();
+  const [phase, title, feel, act] = DAYS[sel - 1];
+
+  const head = el('div', 'card-head');
+  const big = el('div', 'big-day grad-text');
+  big.appendChild(el('small', null, 'JOUR'));
+  big.appendChild(document.createTextNode(String(sel)));
+  head.appendChild(big);
+  head.appendChild(el('span', 'phase', phase));
+  box.appendChild(head);
+  box.appendChild(el('h2', null, title));
+  box.appendChild(el('p', 'quote', QUOTES[sel - 1]));
+
+  const b1 = el('div', 'block');
+  b1.appendChild(el('h3', null, 'Ce que certains ressentent'));
+  b1.appendChild(el('p', null, feel));
+  box.appendChild(b1);
+
+  const b2 = el('div', 'block');
+  b2.appendChild(el('h3', null, "À faire aujourd'hui"));
+  b2.appendChild(el('p', null, act));
+  box.appendChild(b2);
+
+  const L = DAYLESS[sel - 1];
+  const b3 = el('div', 'block');
+  b3.appendChild(el('h3', null, 'Leçon du jour'));
+  b3.appendChild(el('p', null, L[0]));
+  box.appendChild(b3);
+
+  const hwOn = !!S.hw[sel];
+  const hw = el('button', 'hab');
+  hw.type = 'button';
+  hw.setAttribute('role', 'checkbox');
+  hw.setAttribute('aria-checked', String(hwOn));
+  hw.appendChild(el('span', 'box', '✓'));
+  const hwt = el('span');
+  hwt.appendChild(el('small', 'hw-l', 'DEVOIR'));
+  hwt.appendChild(el('span', 'hw-t', L[1]));
+  hw.appendChild(hwt);
+  hw.addEventListener('click', () => { S.hw[sel] = !hwOn; if (!S.hw[sel]) delete S.hw[sel]; save(); renderDetail(); });
+  box.appendChild(hw);
+
+  const rf = el('div', 'block');
+  rf.appendChild(el('h3', null, 'Question de réflexion'));
+  rf.appendChild(el('p', null, L[2]));
+  const ta = el('textarea');
+  ta.maxLength = 400;
+  ta.placeholder = 'Ta réponse (facultatif)';
+  ta.value = S.refl[sel] || '';
+  ta.setAttribute('aria-label', 'Ta réponse à la question de réflexion');
+  rf.appendChild(ta);
+  const rmsg = el('p', 'fine', '');
+  rmsg.hidden = true;
+  rf.appendChild(mkBtn('link-btn', 'Enregistrer ma réponse', () => {
+    const v = ta.value.trim().slice(0, 400);
+    if (v) S.refl[sel] = v; else delete S.refl[sel];
+    save();
+    rmsg.textContent = 'Réponse enregistrée. Tu la retrouves dans ton Journal.';
+    rmsg.hidden = false;
+  }));
+  rf.appendChild(rmsg);
+  box.appendChild(rf);
+
+  if (BILANS.includes(sel) && sel <= S.streak + 1) box.appendChild(bilanUI(sel));
+
+  if (sel <= S.streak) {
+    box.appendChild(validatedUI());
+  } else if (sel === S.streak + 1) {
+    box.appendChild(slipStep === 0 ? todayUI() : slipUI());
+  } else {
+    const lock = el('button', 'cta', "Valide d'abord le jour " + (S.streak + 1));
+    lock.type = 'button';
+    lock.disabled = true;
+    box.appendChild(lock);
+  }
+
+  if (slipStep === 0) {
+    const wrap = el('div');
+    wrap.appendChild(el('p', 'label', "Tu ressens quoi aujourd'hui ?"));
+    const chips = el('div', 'chips');
+    FEELS.forEach(f => {
+      chips.appendChild(mkBtn('chip', f, () => {
+        askAI("Jour " + sel + " : je ressens ceci : " + f.toLowerCase() + ". Qu'est-ce que ça veut dire et que faire ?");
+      }));
+    });
+    wrap.appendChild(chips);
+    box.appendChild(wrap);
+  }
+}
+
+function renderLog() {
+  const box = $('log');
+  box.replaceChildren();
+  box.hidden = S.slips.length === 0;
+  if (!S.slips.length) return;
+  box.appendChild(el('h2', null, 'Ton journal de chutes'));
+  const counts = {};
+  S.slips.forEach(s => { counts[s.t] = (counts[s.t] || 0) + 1; });
+  const top = Object.keys(counts).sort((a, b) => counts[b] - counts[a])[0];
+  const b = el('div', 'block');
+  b.appendChild(el('h3', null, 'Déclencheur le plus fréquent'));
+  b.appendChild(el('p', null, top + ' (' + counts[top] + ' fois). Prépare un plan précis pour ce moment-là.'));
+  box.appendChild(b);
+  box.appendChild(el('p', 'lead', S.slips.length + ' chute' + (S.slips.length > 1 ? 's' : '') + ' enregistrée' + (S.slips.length > 1 ? 's' : '') + '. Le défi continue.'));
+  const list = el('div');
+  S.slips.slice(-5).reverse().forEach(s => {
+    const r = el('div', 'log-row');
+    r.appendChild(el('span', null, 'Tenu ' + s.cl + ' jour' + (s.cl > 1 ? 's' : '')));
+    r.appendChild(el('span', null, s.t));
+    list.appendChild(r);
+  });
+  box.appendChild(list);
+  const last = S.slips[S.slips.length - 1];
+  if (last.d === S.streak) {
+    box.appendChild(mkBtn('cta-alt', 'Enregistrée par erreur ? Annuler la dernière chute', () => {
+      undoTo(last.d - 1);
+      slipStep = 0; slipTrig = '';
+      sel = Math.min(S.streak + 1, 30);
+      render();
+    }));
+  }
+}
+
+function renderDefi() {
+  const has = !!S.profile;
+  $('game').hidden = !has;
+  if (!has) return;
+  const g = GOALS.find(x => x[0] === S.profile.goal);
+  $('hero-lead').textContent = g ? 'Ton objectif : ' + g[1].toLowerCase() + '. Chaque jour, dis si tu as tenu ou si tu as craqué.' : 'Chaque jour, dis si tu as tenu ou si tu as craqué.';
+  const cur = Math.min(S.streak + 1, 30);
+  $('t-cur').textContent = S.streak >= 30 ? '30' : String(cur);
+  $('t-streak').textContent = String(cleanNow());
+  $('slip-alert').hidden = S.slips.filter(x => x.d > S.streak - 7).length < 2;
+  $('welcome-note').hidden = !(welcomeDays >= 3);
+  if (welcomeDays >= 3) $('welcome-txt').textContent = 'Content de te revoir. Ça fait ' + welcomeDays + ' jours. Comment s\'est passée ta semaine ? Le programme reprend là où tu t\'étais arrêté.';
+  $('t-best').textContent = String(bestOf());
+  $('bar-i').style.width = (S.streak / 30 * 100) + '%';
+  $('bar').setAttribute('aria-valuenow', String(S.streak));
+  renderGrid();
+  renderDetail();
+  renderLog();
+  renderBadges();
+  if (popDay) {
+    const t = $('tile-streak');
+    t.classList.remove('bump');
+    void t.offsetWidth;
+    t.classList.add('bump');
+  }
+  popDay = 0;
+}
+
+/* Apprendre */
+function renderLearn() {
+  const box = $('learn-list');
+  box.replaceChildren();
+  PARTS.forEach((P, i) => {
+    const c = el('div', 'part');
+    const open = openPart === i;
+    const h = mkBtn('part-h', null, () => { openPart = open ? -1 : i; renderLearn(); });
+    h.setAttribute('aria-expanded', String(open));
+    h.appendChild(el('span', 'part-n grad-text', String(i + 1)));
+    h.appendChild(el('span', 'part-t', P[0]));
+    h.appendChild(el('span', 'part-i', open ? '−' : '+'));
+    c.appendChild(h);
+    if (open) {
+      const b = el('div', 'part-b');
+      P[1].forEach(t => b.appendChild(el('p', null, t)));
+      c.appendChild(b);
+    }
+    box.appendChild(c);
+  });
+}
+
+/* Habitudes */
+function renderHabits() {
+  const k = dkey(new Date());
+  const done = S.habits[k] || [];
+  $('hab-title').textContent = "Aujourd'hui · " + done.length + '/' + HABITS.length;
+  const list = $('hab-list');
+  list.replaceChildren();
+  HABITS.forEach(h => {
+    const on = done.includes(h.id);
+    const b = el('button', 'hab');
+    b.type = 'button';
+    b.setAttribute('role', 'checkbox');
+    b.setAttribute('aria-checked', String(on));
+    b.appendChild(el('span', 'box', '✓'));
+    b.appendChild(el('span', null, h.label));
+    b.addEventListener('click', () => {
+      const cur = S.habits[k] || [];
+      S.habits[k] = on ? cur.filter(x => x !== h.id) : cur.concat(h.id);
+      save();
+      renderHabits();
+    });
+    list.appendChild(b);
+  });
+  const wk = $('week');
+  wk.replaceChildren();
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    const n = (S.habits[dkey(d)] || []).length;
+    const c = el('div', 'wd' + (n === HABITS.length ? ' full' : ''));
+    c.appendChild(el('small', null, d.toLocaleDateString('fr-FR', { weekday: 'short' }).slice(0, 3)));
+    c.appendChild(el('b', null, String(n)));
+    wk.appendChild(c);
+  }
+}
+
+/* Journal */
+function renderMood() {
+  const m = $('mood');
+  m.replaceChildren();
+  for (let i = 1; i <= 5; i++) {
+    m.appendChild(mkBtn('chip' + (jm === i ? ' on' : ''), String(i), () => { jm = i; renderMood(); }));
+  }
+}
+function loadJournal() {
+  const e = S.journal[dkey(new Date())];
+  jm = e ? e.m : 0;
+  $('jn').value = e ? e.n : '';
+  $('j-msg').hidden = true;
+  renderMood();
+  renderPlan();
+  renderDuo();
+  renderChart();
+  renderJList();
+}
+function renderPlan() {
+  const box = $('plan-box');
+  if (box.children.length) return;
+  for (let i = 0; i < 3; i++) {
+    const w = el('div', 'plan-in');
+    const inp = el('input');
+    inp.type = 'text';
+    inp.maxLength = 80;
+    inp.id = 'plan-' + i;
+    inp.placeholder = 'Action ' + (i + 1) + ' (ex. sortir marcher 10 minutes)';
+    inp.setAttribute('aria-label', 'Action ' + (i + 1) + ' du plan SOS');
+    inp.value = S.plan[i];
+    w.appendChild(inp);
+    box.appendChild(w);
+  }
+}
+$('plan-save').addEventListener('click', () => {
+  S.plan = [0, 1, 2].map(i => $('plan-' + i).value.trim().slice(0, 80));
+  save();
+  $('plan-msg').hidden = false;
+});
+function renderTrig() {
+  $('trig-card').hidden = S.slips.length === 0;
+  const l = $('trig-list');
+  l.replaceChildren();
+  const counts = {};
+  S.slips.forEach(x => { counts[x.t] = (counts[x.t] || 0) + 1; });
+  const keys = Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
+  const max = keys.length ? counts[keys[0]] : 1;
+  keys.forEach(k => {
+    const row = el('div', 'trig-row');
+    row.appendChild(el('span', null, k));
+    row.appendChild(el('b', null, counts[k] + (counts[k] > 1 ? ' fois' : ' fois')));
+    const bar = el('i');
+    bar.style.width = Math.max(8, Math.round(counts[k] / max * 100)) + '%';
+    row.appendChild(bar);
+    l.appendChild(row);
+  });
+}
+function renderChart() {
+  renderTrig();
+  const c = $('mchart');
+  c.replaceChildren();
+  let sum = 0, n = 0;
+  for (let i = 13; i >= 0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    const e = S.journal[dkey(d)];
+    const m = e && e.m ? e.m : 0;
+    if (m) { sum += m; n++; }
+    const col = el('div');
+    const bar = el('i', m ? '' : 'none');
+    bar.style.height = m ? (m * 18) + '%' : '3px';
+    col.appendChild(bar);
+    col.appendChild(el('small', null, String(d.getDate())));
+    c.appendChild(col);
+  }
+  $('mc-sum').textContent = n ? ('Humeur moyenne : ' + (sum / n).toFixed(1) + '/5 sur ' + n + ' jour' + (n > 1 ? 's' : '') + ' notés.') : 'Enregistre ton humeur chaque jour pour voir ta courbe.';
+}
+function renderJList() {
+  const keys = Object.keys(S.journal).sort().reverse().slice(0, 7);
+  const rdays = Object.keys(S.refl).map(Number).sort((a, b) => b - a).slice(0, 7);
+  $('j-list-card').hidden = keys.length === 0 && rdays.length === 0;
+  const box = $('j-list');
+  box.replaceChildren();
+  rdays.forEach(n => {
+    const row = el('div', 'entry');
+    row.appendChild(el('b', null, 'Réflexion · jour ' + n));
+    row.appendChild(el('p', null, S.refl[n]));
+    box.appendChild(row);
+  });
+  keys.forEach(k => {
+    const e = S.journal[k];
+    const row = el('div', 'entry');
+    const parts = k.split('-');
+    const d = new Date(+parts[0], +parts[1] - 1, +parts[2]);
+    row.appendChild(el('b', null, d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' }) + (e.m ? ' · humeur ' + e.m + '/5' : '')));
+    if (e.n) row.appendChild(el('p', null, e.n));
+    box.appendChild(row);
+  });
+}
+$('j-save').addEventListener('click', () => {
+  const k = dkey(new Date());
+  const n = $('jn').value.trim().slice(0, 400);
+  if (!jm && !n) return;
+  S.journal[k] = { m: jm, n };
+  save();
+  $('j-msg').hidden = false;
+  renderChart();
+  renderJList();
+});
+
+/* Vidéos : ajoute ici { title, url, note } pour chaque vidéo (liens https uniquement) */
+const VIDEOS = [
+  { title: "1 an de rétention séminale : mon débrief !", url: "https://youtu.be/Y9Fswb9Jlh8", note: "Callmenarcice · Retour d'expérience personnel sur un an." },
+  { title: "Les effets de la rétention séminale sur les femmes", url: "https://youtu.be/cQQldPM0-AI", note: "Billiz-icon · Un point de vue personnel." },
+  { title: "Timeline du glow up en abstinence sexuelle", url: "https://youtu.be/sM-B_z94zF4", note: "Billiz-icon · Un parcours raconté étape par étape." },
+  { title: "La rétention séminale, c'est juste le tutoriel", url: "https://youtu.be/8_mloXOwByE", note: "Yass Ouzzif · Un point de vue personnel." }
+];
+function vidSource(u) {
+  try {
+    const h = new URL(u).hostname.replace(/^www\./, '');
+    if (/youtu/.test(h)) return 'YouTube';
+    if (/tiktok/.test(h)) return 'TikTok';
+    if (/instagram/.test(h)) return 'Instagram';
+    return h;
+  } catch (e) { return ''; }
+}
+function renderVideos() {
+  const box = $('vid-list');
+  box.replaceChildren();
+  const list = VIDEOS.filter(v => v && /^https:\/\//.test(v.url));
+  if (!list.length) {
+    const c = el('section', 'card');
+    c.appendChild(el('h2', null, 'Les premières vidéos arrivent bientôt'));
+    c.appendChild(el('p', 'lead', "Reviens dans quelques jours : elles s'afficheront ici, avec un résumé et un lien pour les regarder."));
+    box.appendChild(c);
+    return;
+  }
+  list.forEach(v => {
+    const c = el('article', 'vid');
+    c.appendChild(el('span', 'src', vidSource(v.url)));
+    c.appendChild(el('h3', null, v.title || 'Vidéo'));
+    if (v.note) c.appendChild(el('p', null, v.note));
+    const a = el('a', 'cta-alt', 'Regarder sur ' + vidSource(v.url));
+    a.href = v.url;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    c.appendChild(a);
+    box.appendChild(c);
+  });
+}
+
+function render() {
+  $('onb').hidden = !!S.profile;
+  renderTour();
+  if (!S.profile) renderOb();
+  renderTabs();
+  if (view === 'defi') renderDefi();
+  if (view === 'learn') renderLearn();
+  if (view === 'habits') renderHabits();
+  if (view === 'videos') renderVideos();
+}
+
+/* SOS */
+let sosT = 0, sosTimer = null;
+function sosPhase() {
+  let p = SOS_PHASES[0];
+  SOS_PHASES.forEach(x => { if (sosT >= x[0]) p = x; });
+  return p;
+}
+function sosTick() {
+  const left = Math.max(0, 600 - sosT);
+  $('sos-time').textContent = String(Math.floor(left / 60)).padStart(2, '0') + ':' + String(left % 60).padStart(2, '0');
+  $('sos-label').textContent = (sosT % 10) < 4 ? 'Inspire' : 'Expire';
+  const p = sosPhase();
+  $('sos-title').textContent = p[1];
+  $('sos-text').textContent = p[2];
+  if (sosT >= 600) {
+    clearInterval(sosTimer); sosTimer = null;
+    $('breath').classList.remove('run');
+    $('sos-label').textContent = 'Bien joué';
+    $('sos-title').textContent = 'Bien joué';
+    $('sos-text').textContent = "Dix minutes sont passées. L'envie a sûrement baissé. Tu as prouvé que tu peux la laisser passer.";
+    $('sos-end').hidden = false;
+  }
+}
+function sosReset() {
+  clearInterval(sosTimer); sosTimer = null;
+  sosT = 0;
+  $('breath').classList.remove('run');
+  $('sos-time').textContent = '10:00';
+  $('sos-label').textContent = 'Prêt ?';
+  $('sos-title').textContent = 'Avant de commencer';
+  $('sos-text').textContent = "Une envie monte, atteint un pic, puis redescend. Il suffit de l'attendre en faisant autre chose.";
+  $('sos-start').hidden = false;
+  $('sos-end').hidden = true;
+}
+function sosStart() {
+  sosT = 0;
+  $('sos-start').hidden = true;
+  $('sos-end').hidden = true;
+  $('breath').classList.remove('run');
+  void $('breath').offsetWidth;
+  $('breath').classList.add('run');
+  sosTick();
+  clearInterval(sosTimer);
+  sosTimer = setInterval(() => { sosT++; sosTick(); }, 1000);
+}
+function fillSosPlan() {
+  const items = S.plan.filter(x => x);
+  $('sos-plan').hidden = items.length === 0;
+  const l = $('sos-plan-list');
+  l.replaceChildren();
+  items.forEach(x => l.appendChild(el('p', null, '• ' + x)));
+}
+function openSos() { fillSosPlan(); sosReset(); $('sos').hidden = false; $('sos-close').focus(); }
+function closeSos() { clearInterval(sosTimer); sosTimer = null; $('sos').hidden = true; }
+$('sos-open').addEventListener('click', openSos);
+$('sos-close').addEventListener('click', closeSos);
+$('sos-start').addEventListener('click', sosStart);
+$('sos-again').addEventListener('click', sosStart);
+$('sos-held').addEventListener('click', () => { closeSos(); setView('defi'); });
+$('sos-ai').addEventListener('click', () => {
+  closeSos();
+  askAI("J'ai une grosse envie en ce moment. Aide-moi à la laisser passer.");
+});
+$('sos-slip').addEventListener('click', () => {
+  closeSos();
+  if (S.profile) { sel = Math.min(S.streak + 1, 30); slipStep = 1; slipTrig = ''; }
+  setView('defi');
+});
+document.addEventListener('keydown', ev => { if (ev.key === 'Escape' && !$('sos').hidden) closeSos(); });
+
+/* Alertes et accueil */
+$('slip-sos').addEventListener('click', openSos);
+$('slip-ai').addEventListener('click', () => askAI("J'ai craqué plusieurs fois cette semaine. Aide-moi à comprendre pourquoi et à adapter mon plan."));
+$('welcome-j').addEventListener('click', () => { welcomeDays = 0; setView('journal'); });
+$('welcome-x').addEventListener('click', () => { welcomeDays = 0; render(); });
+
+/* Visite guidée */
+const TOUR = [
+  ["Ton défi", "Chaque jour : une leçon, un devoir et une question de réflexion. Tu valides le jour quand tu as tenu. Si tu craques, tu l'indiques : le jour devient rouge et le défi continue."],
+  ["Tes outils", "Le bouton rouge SOS en haut lance 10 minutes pour laisser passer une envie. Dans le Journal, tu notes ton humeur et tu écris ton plan SOS."],
+  ["Apprendre et progresser", "Apprendre contient seize cours courts et les mythes. Vidéos regroupe des points de vue personnels. Le coach IA répond à tes questions. Rien ici ne remplace un avis médical."]
+];
+let tourI = 0;
+function renderTour() {
+  const on = !!S.profile && !S.tour;
+  $('tour').hidden = !on;
+  if (!on) return;
+  $('tour-step').textContent = 'Visite rapide · ' + (tourI + 1) + ' sur ' + TOUR.length;
+  $('tour-h').textContent = TOUR[tourI][0];
+  $('tour-t').textContent = TOUR[tourI][1];
+  [0, 1, 2].forEach(i => $('tb' + i).classList.toggle('on', i <= tourI));
+  $('tour-next').textContent = tourI === TOUR.length - 1 ? 'Commencer' : 'Suivant';
+}
+function endTour() { S.tour = true; save(); renderTour(); window.scrollTo({ top: 0 }); }
+$('tour-next').addEventListener('click', () => { if (tourI >= TOUR.length - 1) endTour(); else { tourI++; renderTour(); } });
+$('tour-skip').addEventListener('click', endTour);
+
+/* Copier mes données */
+$('exp-open').addEventListener('click', () => {
+  const txt = JSON.stringify(S);
+  $('exp-ta').value = txt;
+  $('exp-box').hidden = false;
+  $('exp-ta').select();
+  try {
+    navigator.clipboard.writeText(txt).then(() => { $('exp-msg').textContent = 'Données copiées. Colle-les dans un endroit sûr.'; }, () => { $('exp-msg').textContent = 'Copie manuelle : appuie dans le cadre, sélectionne tout et copie.'; });
+  } catch (e) { $('exp-msg').textContent = 'Copie manuelle : appuie dans le cadre, sélectionne tout et copie.'; }
+});
+
+const QUOTES = ["Un jour à la fois suffit.", "Commencer petit vaut mieux que ne pas commencer.", "Une envie passe, même quand elle semble énorme.", "Ta raison de départ compte encore aujourd'hui.", "Le progrès, c'est surtout de revenir.", "Ton prochain pas peut être tout petit.", "Tu as déjà tenu plus que tu ne le crois.", "Parle de ce qui est dur, il pèse moins.", "Fais simple : dors, bouge, bois de l'eau.", "Tu n'as pas à être parfait, juste présent.", "Ce que tu fais aujourd'hui prépare demain.", "Une chute n'efface pas ce que tu as appris.", "Prends soin de toi comme d'un ami.", "La régularité bat l'intensité.", "Choisis ton environnement, il t'aide ou te freine.", "Respire avant de réagir.", "Tu construis une habitude, pas un exploit.", "Le calme se travaille, jour après jour.", "Ce qui compte, c'est la direction.", "Une bonne nuit change beaucoup de choses.", "Tu n'es pas seul à vivre ça.", "Remarque tes petites victoires.", "Observe l'envie, laisse-la passer.", "Fais une chose utile maintenant.", "Ton énergie va où va ton attention.", "Demande de l'aide, c'est une force.", "Reste curieux de toi-même.", "Encore quelques jours, tu avances.", "Regarde le chemin parcouru.", "Ce que tu gardes compte plus que le chiffre."];
+
+/* Bilan, badges, image, défi à deux, code, masque */
+function bilanText() {
+  const k = dkey(new Date());
+  const j = S.journal[k];
+  const day = Math.min(S.streak + 1, 30);
+  const d = S.duo[k] || {};
+  const lines = [
+    'Défi 30 Jours · ' + new Date().toLocaleDateString('fr-FR'),
+    'Jours validés : ' + S.streak + '/30',
+    'Série : ' + cleanNow() + ' · Record : ' + bestOf(),
+    'Chutes : ' + S.slips.length,
+    'Humeur du jour : ' + (j && j.m ? j.m + '/5' : 'non notée'),
+    'Devoir du jour ' + day + ' : ' + (S.hw[day] ? 'fait' : 'pas encore fait')
+  ];
+  if (d.e || d.h || d.s) lines.push('Énergie ' + (d.e || '-') + ' · Humeur ' + (d.h || '-') + ' · Sommeil ' + (d.s || '-') + ' (sur 5)');
+  return lines.join('\n');
+}
+function copyText(txt, ta, msg) {
+  if (ta) { ta.value = txt; ta.hidden = false; ta.select(); }
+  msg.hidden = false;
+  msg.textContent = 'Copie manuelle : sélectionne le texte et copie.';
+  try { navigator.clipboard.writeText(txt).then(() => { msg.textContent = 'Copié.'; }, () => {}); } catch (e) {}
+}
+$('bd-copy').addEventListener('click', () => copyText(bilanText(), $('bd-ta'), $('bd-msg')));
+
+const MILES = { 3: 'Premiers pas posés', 7: 'Une semaine entière', 14: 'Deux semaines, tu tiens', 21: 'Trois semaines, une vraie habitude', 30: 'Défi terminé, bravo' };
+function celebrate(n) {
+  const old = document.querySelector('.cele'); if (old) old.remove();
+  const o = el('div', 'cele');
+  o.setAttribute('aria-hidden', 'true');
+  const box = el('div', 'cele-box');
+  box.appendChild(el('b', null, 'Jour ' + n));
+  box.appendChild(el('span', null, MILES[n]));
+  o.appendChild(box);
+  for (let i = 0; i < 4; i++) { const r = document.createElement('i'); r.style.animationDelay = (i * .45) + 's'; o.appendChild(r); }
+  document.body.appendChild(o);
+  try { if (navigator.vibrate) navigator.vibrate([60, 40, 90]); } catch (e) {}
+  setTimeout(() => o.remove(), 4300);
+  const live = $('live'); if (live) live.textContent = 'Palier atteint : jour ' + n;
+}
+function checkMiles() {
+  const reached = [3, 7, 14, 21, 30].filter(m => S.streak >= m);
+  if (S.cel === null) { S.cel = reached; save(); return; }
+  const fresh = reached.filter(m => !S.cel.includes(m));
+  if (!fresh.length) return;
+  S.cel = reached; save();
+  celebrate(fresh[fresh.length - 1]);
+}
+function renderBadges() {
+  checkMiles();
+  const hw = Object.keys(S.hw).length > 0, rf = Object.keys(S.refl).length > 0;
+  const back = S.slips.some(x => S.sd[x.d] && S.streak > x.d && !S.sd[x.d + 1]);
+  const B = [['Jour 3', S.streak >= 3], ['Jour 7', S.streak >= 7], ['Jour 14', S.streak >= 14], ['Jour 21', S.streak >= 21], ['Jour 30', S.streak >= 30],
+    ['Premier devoir', hw], ['Première réflexion', rf], ['Plan SOS écrit', S.plan.some(x => x)], ['Reprise après une chute', back]];
+  const box = $('badges');
+  box.replaceChildren();
+  box.appendChild(el('h2', null, 'Tes badges · ' + B.filter(b => b[1]).length + '/' + B.length));
+  const w = el('div', 'badges');
+  B.forEach(([n, ok]) => { const b = el('span', 'badge' + (ok ? '' : ' off'), n); b.setAttribute('aria-label', n + (ok ? ' obtenu' : ' à obtenir')); w.appendChild(b); });
+  box.appendChild(w);
+}
+
+$('share-btn').addEventListener('click', () => {
+  const c = document.createElement('canvas');
+  c.width = 1080; c.height = 1350;
+  const x = c.getContext('2d');
+  x.fillStyle = '#05060b'; x.fillRect(0, 0, 1080, 1350);
+  const g = x.createLinearGradient(0, 0, 1080, 520);
+  g.addColorStop(0, '#3b6cf5'); g.addColorStop(1, '#8b5cf6');
+  x.fillStyle = g; x.fillRect(0, 0, 1080, 190);
+  x.fillStyle = '#fff'; x.textAlign = 'center';
+  x.font = '700 64px system-ui, sans-serif'; x.fillText('Défi 30 Jours', 540, 120);
+  x.font = '700 330px system-ui, sans-serif'; x.fillText(String(S.streak), 540, 720);
+  x.font = '500 58px system-ui, sans-serif'; x.fillStyle = '#c9cfe6'; x.fillText('jours validés sur 30', 540, 820);
+  x.font = '600 52px system-ui, sans-serif'; x.fillStyle = '#fff'; x.fillText('Série propre : ' + cleanNow() + ' jour' + (cleanNow() > 1 ? 's' : ''), 540, 1000);
+  x.font = '500 44px system-ui, sans-serif'; x.fillStyle = '#8a92b2'; x.fillText('Un jour à la fois.', 540, 1220);
+  const out = $('share-out');
+  out.replaceChildren();
+  const img = document.createElement('img');
+  img.className = 'share-img';
+  img.alt = 'Image de ma progression';
+  img.src = c.toDataURL('image/png');
+  out.appendChild(img);
+  out.appendChild(el('p', 'fine', "Appuie longtemps sur l'image pour l'enregistrer ou la partager."));
+});
+
+const DUO_M = [['e', 'Énergie'], ['h', 'Humeur'], ['s', 'Sommeil']];
+function duoDays() {
+  const a = [];
+  for (let i = 6; i >= 0; i--) { const d = new Date(); d.setDate(d.getDate() - i); a.push(dkey(d)); }
+  return a;
+}
+function renderDuo() {
+  const box = $('duo-in');
+  box.replaceChildren();
+  const k = dkey(new Date());
+  const cur = S.duo[k] || {};
+  DUO_M.forEach(([m, label]) => {
+    const row = el('div', 'duo-row');
+    row.appendChild(el('b', null, label));
+    for (let n = 1; n <= 5; n++) {
+      const b = mkBtn('chip' + (cur[m] === n ? ' on' : ''), String(n), () => { S.duo[k] = Object.assign({}, S.duo[k], { [m]: n }); save(); renderDuo(); });
+      b.setAttribute('aria-label', label + ' ' + n + ' sur 5');
+      row.appendChild(b);
+    }
+    box.appendChild(row);
+  });
+}
+function duoCode() {
+  return 'D30|' + duoDays().map(k => { const v = S.duo[k] || {}; return (v.e || 0) + '.' + (v.h || 0) + '.' + (v.s || 0); }).join(',');
+}
+$('duo-copy').addEventListener('click', () => copyText(duoCode(), null, $('duo-msg')));
+function bars(vals, cls) {
+  const w = el('div', 'duo-bars' + (cls ? ' ' + cls : ''));
+  vals.forEach(v => { const i = el('i', v ? '' : 'none'); i.style.height = v ? (v * 20) + '%' : '2px'; w.appendChild(i); });
+  return w;
+}
+function avg(a) { const v = a.filter(x => x); return v.length ? (v.reduce((p, c) => p + c, 0) / v.length).toFixed(1) : '-'; }
+$('duo-cmp').addEventListener('click', () => {
+  const out = $('duo-out');
+  out.replaceChildren();
+  const t = $('duo-friend').value.trim();
+  if (!/^D30\|(?:[0-5]\.[0-5]\.[0-5],){6}[0-5]\.[0-5]\.[0-5]$/.test(t)) { out.appendChild(el('p', 'fine', "Ce code n'est pas valide. Demande à ton ami de copier son code avec le même bouton.")); return; }
+  const fr = t.slice(4).split(',').map(x => x.split('.').map(Number));
+  const my = duoCode().slice(4).split(',').map(x => x.split('.').map(Number));
+  DUO_M.forEach(([m, label], idx) => {
+    const a = my.map(v => v[idx]), b = fr.map(v => v[idx]);
+    const blk = el('div', 'block');
+    blk.appendChild(el('h3', null, label + ' · toi ' + avg(a) + ' · ami ' + avg(b)));
+    blk.appendChild(bars(a));
+    blk.appendChild(bars(b, 'f'));
+    out.appendChild(blk);
+  });
+  out.appendChild(el('p', 'fine', 'Barres bleues : toi. Barres rouges : ton ami. Les 7 derniers jours, le plus ancien à gauche.'));
+});
+
+function pinHash(c) {
+  let h = 2166136261;
+  const t = 'd30|' + c;
+  for (let i = 0; i < t.length; i++) { h ^= t.charCodeAt(i); h = Math.imul(h, 16777619) >>> 0; }
+  return h.toString(16).padStart(8, '0');
+}
+function renderLock() { $('lock').hidden = !S.pin || lockOk; if (!$('lock').hidden) setTimeout(() => $('lock-in').focus(), 50); }
+let lockOk = false;
+$('lock-in').addEventListener('input', () => {
+  const v = $('lock-in').value.replace(/\D/g, '').slice(0, 4);
+  $('lock-in').value = v;
+  if (v.length === 4) {
+    if (pinHash(v) === S.pin) { lockOk = true; $('lock-in').value = ''; $('lock-msg').hidden = true; renderLock(); }
+    else { $('lock-msg').hidden = false; $('lock-in').value = ''; }
+  }
+});
+$('pin-open').addEventListener('click', () => { $('pin-box').hidden = !$('pin-box').hidden; $('pin-del').hidden = !S.pin; });
+$('pin-save').addEventListener('click', () => {
+  const v = $('pin-new').value;
+  const m = $('pin-msg');
+  m.hidden = false;
+  if (!/^\d{4}$/.test(v)) { m.textContent = 'Entre exactement 4 chiffres.'; return; }
+  S.pin = pinHash(v); save(); lockOk = true;
+  $('pin-new').value = ''; m.textContent = 'Code enregistré. Il sera demandé à la prochaine ouverture.'; $('pin-del').hidden = false;
+});
+$('pin-del').addEventListener('click', () => { S.pin = ''; save(); $('pin-msg').hidden = false; $('pin-msg').textContent = 'Code retiré.'; $('pin-del').hidden = true; });
+
+function showMask(on) { $('mask').hidden = !on; if (on) $('mask').focus(); }
+$('mask-open').addEventListener('click', () => showMask(true));
+$('hide-fab').addEventListener('click', () => showMask(true));
+$('mask').addEventListener('click', () => showMask(false));
+$('mask').addEventListener('keydown', ev => { if (ev.key === 'Enter' || ev.key === ' ' || ev.key === 'Escape') showMask(false); });
+renderLock();
+
+
+/* Comptes (Supabase, facultatif) */
+const SUPABASE_URL = 'https://oeqipnwlqbilefoxcnue.supabase.co'; // ex. https://abcdxyz.supabase.co (voir GUIDE.md)
+const SUPABASE_KEY = 'sb_publishable_U8pBXwh8-xgMeR08-XBVTA_tTpOFpfS'; // clé « anon public » de ton projet Supabase
+const AUTH_KEY = 'defi30-auth';
+function sbOn() { return !!(SUPABASE_URL && SUPABASE_KEY); }
+try {
+  const a = JSON.parse(localStorage.getItem(AUTH_KEY) || 'null');
+  if (a && typeof a.access_token === 'string' && typeof a.refresh_token === 'string' && typeof a.uid === 'string') auth = a;
+} catch (e) {}
+function saveAuth() { try { if (auth) localStorage.setItem(AUTH_KEY, JSON.stringify(auth)); else localStorage.removeItem(AUTH_KEY); } catch (e) {} }
+function setSession(d) {
+  auth = {
+    access_token: d.access_token, refresh_token: d.refresh_token,
+    expires_at: d.expires_at || (Math.floor(Date.now() / 1000) + (d.expires_in || 3600)),
+    email: (d.user && d.user.email) || (auth && auth.email) || '',
+    uid: (d.user && d.user.id) || (auth && auth.uid) || ''
+  };
+  saveAuth();
+}
+async function ensureToken() {
+  if (!auth) throw new Error('no_auth');
+  if (auth.expires_at && Date.now() / 1000 > auth.expires_at - 60) {
+    const r = await fetch(SUPABASE_URL + '/auth/v1/token?grant_type=refresh_token', { method: 'POST', headers: { apikey: SUPABASE_KEY, 'Content-Type': 'application/json' }, body: JSON.stringify({ refresh_token: auth.refresh_token }) });
+    if (!r.ok) { auth = null; saveAuth(); renderAcct(); throw new Error('expired'); }
+    setSession(await r.json());
+  }
+}
+async function sb(path, opts, needAuth) {
+  const headers = Object.assign({ apikey: SUPABASE_KEY, 'Content-Type': 'application/json' }, (opts && opts.headers) || {});
+  if (needAuth) { await ensureToken(); headers.Authorization = 'Bearer ' + auth.access_token; }
+  return fetch(SUPABASE_URL + path, Object.assign({}, opts, { headers }));
+}
+function cloudData() { const o = JSON.parse(JSON.stringify(S)); delete o.pin; return o; }
+async function pushCloud() {
+  const r = await sb('/rest/v1/progress?on_conflict=user_id', { method: 'POST', headers: { Prefer: 'resolution=merge-duplicates,return=minimal' }, body: JSON.stringify({ user_id: auth.uid, data: cloudData(), updated_at: new Date().toISOString() }) }, true);
+  if (!r.ok) throw new Error('push');
+}
+async function pullCloud() {
+  const r = await sb('/rest/v1/progress?select=data,updated_at&user_id=eq.' + encodeURIComponent(auth.uid), {}, true);
+  if (!r.ok) throw new Error('pull');
+  const rows = await r.json();
+  return rows[0] || null;
+}
+function schedulePush() { clearTimeout(pushT); pushT = setTimeout(() => { pushCloud().catch(() => {}); }, 1500); }
+function applyCloud(d) {
+  if (!d || typeof d !== 'object' || JSON.stringify(d).length > 200000) { acctMsg('Données du compte illisibles.'); return; }
+  try { localStorage.setItem(KEY2, JSON.stringify(Object.assign({}, d, { pin: S.pin }))); } catch (e) {}
+  location.reload();
+}
+function acctMsg(t) { const m = $('acct-msg'); m.textContent = t; m.hidden = !t; }
+let pendingRow = null;
+function renderAcct() {
+  const on = sbOn();
+  $('acct-off').hidden = on;
+  $('acct-out').hidden = !on || !!auth;
+  $('acct-in').hidden = !on || !auth;
+  if (auth) $('acct-who').textContent = 'Connecté : ' + (auth.email || 'compte');
+  $('acct-choice').hidden = !pendingRow;
+}
+function authErr(r, d) {
+  if (r.status === 429) return 'Trop de tentatives. Réessaie dans un moment.';
+  const m = String((d && (d.msg || d.error_description || d.message)) || '').toLowerCase();
+  if (m.includes('invalid login')) return 'Email ou mot de passe incorrect.';
+  if (m.includes('already')) return 'Cet email a déjà un compte. Utilise « Me connecter ».';
+  if (m.includes('password')) return 'Mot de passe trop faible. Mets au moins 8 caractères.';
+  if (m.includes('email not confirmed')) return "Confirme d'abord ton email, puis connecte-toi.";
+  return "Impossible pour l'instant. Réessaie plus tard.";
+}
+async function doAuth(signup) {
+  const email = $('acct-email').value.trim(), pass = $('acct-pass').value;
+  if (!/^\S+@\S+\.\S+$/.test(email)) { acctMsg('Entre un email valide.'); return; }
+  if (pass.length < 8) { acctMsg('Mets au moins 8 caractères.'); return; }
+  acctMsg('Un instant…');
+  try {
+    const r = await fetch(SUPABASE_URL + (signup ? '/auth/v1/signup' : '/auth/v1/token?grant_type=password'), { method: 'POST', headers: { apikey: SUPABASE_KEY, 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password: pass }) });
+    const d = await r.json().catch(() => ({}));
+    if (!r.ok) { acctMsg(authErr(r, d)); return; }
+    if (!d.access_token) { acctMsg('Compte créé. Confirme ton email, puis connecte-toi.'); return; }
+    setSession(d);
+    $('acct-pass').value = '';
+    acctMsg('Connecté. Synchronisation…');
+    await afterLogin();
+  } catch (e) { acctMsg('Connexion impossible. Vérifie ta connexion internet.'); }
+}
+async function afterLogin() {
+  try {
+    const row = await pullCloud();
+    if (!row) { await pushCloud(); acctMsg('Connecté. Ta progression est enregistrée dans ton compte.'); }
+    else if (!S.profile) { applyCloud(row.data); return; }
+    else { pendingRow = row; acctMsg(''); }
+  } catch (e) { acctMsg("Connecté, mais la synchronisation a échoué. Réessaie avec « Enregistrer maintenant »."); }
+  renderAcct();
+}
+$('acct-open').addEventListener('click', () => { $('acct-box').hidden = !$('acct-box').hidden; renderAcct(); });
+$('acct-signup').addEventListener('click', () => doAuth(true));
+$('acct-signin').addEventListener('click', () => doAuth(false));
+$('acct-push').addEventListener('click', async () => { try { await pushCloud(); acctMsg('Progression enregistrée dans ton compte.'); } catch (e) { acctMsg('Échec. Réessaie plus tard.'); } });
+$('acct-pull').addEventListener('click', async () => { try { const row = await pullCloud(); if (!row) acctMsg("Aucune progression dans ton compte pour l'instant."); else { pendingRow = row; renderAcct(); } } catch (e) { acctMsg('Échec. Réessaie plus tard.'); } });
+$('acct-keep-local').addEventListener('click', async () => { pendingRow = null; try { await pushCloud(); acctMsg('Progression de cet appareil enregistrée dans ton compte.'); } catch (e) { acctMsg('Échec. Réessaie plus tard.'); } renderAcct(); });
+$('acct-keep-cloud').addEventListener('click', () => { const r = pendingRow; pendingRow = null; applyCloud(r && r.data); });
+$('acct-out-btn').addEventListener('click', () => { auth = null; saveAuth(); pendingRow = null; acctMsg('Déconnecté. Tes données restent sur cet appareil.'); renderAcct(); });
+$('acct-del-open').addEventListener('click', () => { $('acct-del').hidden = false; });
+$('acct-del-no').addEventListener('click', () => { $('acct-del').hidden = true; });
+$('acct-del-yes').addEventListener('click', async () => {
+  $('acct-del').hidden = true;
+  try {
+    const r = await sb('/rest/v1/rpc/delete_my_account', { method: 'POST', body: '{}' }, true);
+    if (!r.ok) throw new Error('del');
+    auth = null; saveAuth(); pendingRow = null;
+    acctMsg('Compte supprimé. Les données de cet appareil restent : utilise « Effacer mes données » pour les retirer.');
+  } catch (e) { acctMsg('Suppression impossible pour le moment. Réessaie plus tard.'); }
+  renderAcct();
+});
+if (sbOn()) $('legal-data').textContent = "Sans compte, ta progression, ton profil, ton journal, tes réflexions et ton plan SOS restent dans ton navigateur, sur cet appareil. Si tu crées un compte (facultatif), ces données sont aussi enregistrées sur un service sécurisé (Supabase) pour que tu les retrouves sur un autre appareil. Ton code d'accès n'est jamais envoyé. Tu peux supprimer ton compte et ses données depuis le site.";
+renderAcct();
+
+/* Effacer les données */
+$('legal-open').addEventListener('click', () => {
+  const o = $('legal').hidden;
+  $('legal').hidden = !o;
+  $('legal-open').setAttribute('aria-expanded', String(o));
+});
+$('wipe-open').addEventListener('click', () => { $('wipe-box').hidden = false; $('wipe-open').hidden = true; });
+$('wipe-no').addEventListener('click', () => { $('wipe-box').hidden = true; $('wipe-open').hidden = false; });
+$('wipe-yes').addEventListener('click', () => {
+  try { localStorage.removeItem(KEY1); localStorage.removeItem(KEY2); } catch (e) {}
+  S = { streak: 0, past: 0, slips: [], profile: null, habits: {}, journal: {}, hw: {}, refl: {}, dx: {}, a18: false, plan: ['', '', ''], sd: {}, seen: '', tour: false, duo: {}, pin: '', cel: null };
+  ob = { since: '', freq: '', tried: '', hard: '', why: '', goal: '', triggers: [] };
+  $('plan-box').replaceChildren(); $('plan-msg').hidden = true;
+  adultOk = false; $('age-ck').setAttribute('aria-checked', 'false'); $('onb-start').disabled = true;
+  obStep = -1;
+  sel = 1; slipStep = 0; slipTrig = ''; view = 'defi';
+  $('wipe-box').hidden = true; $('wipe-open').hidden = false; $('exp-box').hidden = true; tourI = 0;
+  lockOk = true; $('lock').hidden = true; $('pin-box').hidden = true; $('share-out').replaceChildren(); $('duo-out').replaceChildren();
+  render();
+  window.scrollTo({ top: 0 });
+});
+
+/* Assistant IA */
+const INSTR = "Tu es un coach bienveillant et direct dans une application de suivi sur 30 jours pour reprendre le contrôle d'une habitude (défi de rétention séminale). Réponds en français, en tutoyant, en 4 phrases maximum sauf demande contraire. Les effets que les gens rapportent ne sont pas prouvés scientifiquement : n'affirme jamais d'effet garanti et ne dis jamais que ce défi guérit ou sauve quelqu'un. Donne des conseils concrets (sport, sommeil, routine, gestion des envies, déclencheurs). Tu ne remplaces pas un médecin : en cas de douleur, d'anxiété importante, de détresse ou de pensées sombres, encourage à en parler à un professionnel ou à un proche (en France, le 3114 pour les pensées suicidaires). Ne culpabilise jamais, surtout en cas de chute : aide à comprendre le déclencheur et à préparer un plan. Refuse tout propos méprisant envers les femmes ou les autres. Ne recommande jamais de consommer du contenu pornographique en excès, de se faire rejeter ou de se dégoûter de soi comme méthode de désintox : propose plutôt de couper les déclencheurs, de dormir, de bouger et de noter son énergie et son humeur.";
+let msgs = [];
+let busy = false;
+let sampleP = null;
+function getSample() {
+  if (!sampleP) {
+    sampleP = (async () => {
+      try { return window.claude ? await window.claude.use('sample') : null; } catch (e) { return null; }
+    })();
+  }
+  return sampleP;
+}
+function addBubble(kind, text) {
+  const e = $('empty'); if (e) e.remove();
+  const b = el('div', 'bubble ' + kind, text);
+  const list = $('msgs');
+  list.appendChild(b);
+  list.scrollTop = list.scrollHeight;
+  return b;
+}
+const LOCAL = [
+  [/envie|tentation|pulsion|craquer|vais craquer/i, "Une envie monte, atteint un pic, puis redescend. Ne lutte pas, change d'endroit et occupe ton corps : bouge, bois de l'eau, sors 10 minutes. Ouvre le bouton SOS et lance le minuteur : tu as juste à tenir cette vague."],
+  [/crac|chute|rechut|j'ai fail|raté/i, "Ça arrive, et ça n'efface pas ce que tu as appris. Marque la chute dans le défi, choisis le déclencheur et note ce que tu feras différemment demain. Le défi continue : le plus important est de reprendre dès aujourd'hui."],
+  [/irrit|énerv|colère|nerveux/i, "L'irritabilité peut apparaître quand une habitude change, comme le sommeil ou le stress. Dors assez, bouge, et respire lentement 2 minutes. Si ça dure ou que ça t'inquiète, parle à un proche ou à un médecin."],
+  [/fatigu|énergie|sommeil|dormir/i, "Commence par la base : dors 7 à 8 heures, mange régulièrement, sors dehors. Ne cherche pas un effet magique : le sommeil et le sport font la plus grande partie du travail."],
+  [/doute|motiv|sens|à quoi bon|décourag/i, "Relis la raison que tu as écrite au départ et regarde ta progression. Chaque jour compte même s'il n'est pas parfait. Fais juste le prochain petit pas : le devoir du jour."],
+  [/triste|déprim|seul|angoiss|anxi|mal|suicid/i, "Je suis désolé que ce soit dur. Parle à quelqu'un de confiance, ou à un médecin ou un psychologue. En France, le 3114 répond 24 h sur 24 en cas de pensées suicidaires. Tu n'as pas à gérer ça seul."]
+];
+function localAnswer(t) {
+  const hit = LOCAL.find(([re]) => re.test(t));
+  return (hit ? hit[1] : "Je n'ai pas de réponse préparée pour ça. Essaie un de ces sujets : envie, chute, irritabilité, fatigue ou doute. Tu peux aussi utiliser le bouton SOS ou écrire dans ton Journal.") + "\n\n(Réponse préparée : le coach IA complet n'est pas actif ici.)";
+}
+const AI_URL = ''; // adresse de ton Cloudflare Worker (voir worker.js). Laisse vide pour les réponses préparées.
+function buildCtx() {
+  const pr = S.profile;
+  return '[Contexte : jour du programme affiché ' + sel + ' sur 30, série propre en cours ' + cleanNow() + ' jour(s), ' + S.slips.length + ' chute(s) enregistrée(s)'
+    + (pr ? ', objectif : ' + pr.goal + (pr.why ? ', motivation : ' + pr.why : '') + (pr.hard ? ', moment le plus difficile : ' + pr.hard : '') + (pr.triggers.length ? ', déclencheurs : ' + pr.triggers.join(', ') : '') : '') + '.]\n';
+}
+async function ask(text) {
+  text = (text || '').trim();
+  if (!text || busy) return;
+  busy = true;
+  $('send').disabled = true;
+  msgs.push({ role: 'user', content: text });
+  addBubble('user', text);
+  const bub = addBubble('ai', '…');
+  const sample = await getSample();
+  if (!sample && AI_URL) {
+    try {
+      let part = msgs.slice(-12);
+      while (part.length && part[0].role !== 'user') part = part.slice(1);
+      const payload = part.map((m, i) => ({ role: m.role, content: (i === part.length - 1 ? buildCtx() : '') + m.content }));
+      const hd = { 'Content-Type': 'application/json' };
+      if (auth && sbOn()) { try { await ensureToken(); hd.Authorization = 'Bearer ' + auth.access_token; } catch (e) {} }
+      const r = await fetch(AI_URL, { method: 'POST', headers: hd, body: JSON.stringify({ messages: payload }) });
+      if (r.status === 401) { bub.textContent = "Connecte-toi (bouton « Compte » en bas du site) pour utiliser le coach IA."; msgs.pop(); }
+      else if (r.status === 429) { bub.textContent = "Tu as atteint la limite de messages pour aujourd'hui. Reviens demain, ou utilise le bouton SOS."; msgs.pop(); }
+      else if (!r.ok) throw new Error('ia');
+      else {
+        const d = await r.json();
+        const out = String(d.text || '').trim();
+        if (out) { bub.textContent = out; msgs.push({ role: 'assistant', content: out }); }
+        else { bub.textContent = localAnswer(text); msgs.pop(); }
+      }
+    } catch (e) { bub.textContent = localAnswer(text); msgs.pop(); }
+    busy = false; $('send').disabled = false; return;
+  }
+  if (!sample) {
+    bub.textContent = localAnswer(text);
+    msgs.pop(); busy = false; $('send').disabled = false; return;
+  }
+  let part = msgs.slice(-12);
+  while (part.length && part[0].role !== 'user') part = part.slice(1);
+  const pr = S.profile;
+  const ctx = buildCtx();
+  const input = part.map((m, i) => {
+    let c = m.content;
+    if (i === part.length - 1) c = ctx + c;
+    if (i === 0) c = INSTR + '\n\n' + c;
+    return { role: m.role, content: c };
+  });
+  try {
+    const r = await sample(input, { cache: false, onText: ({ text }) => { bub.textContent = text; $('msgs').scrollTop = $('msgs').scrollHeight; } });
+    bub.textContent = r.text;
+    msgs.push({ role: 'assistant', content: r.text });
+  } catch (e) {
+    msgs.pop();
+    if (e && e.code === 'not_granted') bub.textContent = "Tu as refusé l'accès à l'IA. Tu peux le réautoriser en rechargeant la page.";
+    else if (e && e.code === 'rate_limited') bub.textContent = "Trop de messages d'un coup. Réessaie dans un instant.";
+    else bub.textContent = "Je n'ai pas pu répondre. Réessaie dans un instant.";
+  }
+  busy = false;
+  $('send').disabled = false;
+}
+$('form').addEventListener('submit', ev => {
+  ev.preventDefault();
+  const v = $('q').value;
+  $('q').value = '';
+  ask(v);
+});
+STARTERS.forEach(s => {
+  $('starters').appendChild(mkBtn('chip', s, () => ask(s)));
+});
+
+render();
+</script>
+
+</body>
+</html>
